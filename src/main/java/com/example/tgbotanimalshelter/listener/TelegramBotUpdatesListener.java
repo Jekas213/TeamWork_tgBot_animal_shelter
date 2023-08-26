@@ -18,10 +18,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public void init() {
         telegramBot.setUpdatesListener(this);
     }
+
     @Override
     public int process(List<Update> updates) {
         updates.forEach(update -> {
-
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
