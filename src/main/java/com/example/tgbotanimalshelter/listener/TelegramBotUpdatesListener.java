@@ -1,9 +1,11 @@
 package com.example.tgbotanimalshelter.listener;
 
+import com.example.tgbotanimalshelter.command.CommandContainer;
+import com.example.tgbotanimalshelter.command.CommandName;
+import com.example.tgbotanimalshelter.service.SendMassageService;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -15,7 +17,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private final CommandContainer commandContainer;
 
-    public static String PREF = "/";
+    public static final String PREF = "/";
 
     public TelegramBotUpdatesListener(TelegramBot telegramBot) {
         this.commandContainer = new CommandContainer(new SendMassageService(telegramBot));
@@ -26,6 +28,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public void init() {
         telegramBot.setUpdatesListener(this);
     }
+
     @Override
     public int process(List<Update> updates) {
         updates.forEach(update -> {
@@ -33,7 +36,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             if (update.message() != null && massage != null && massage.startsWith(PREF)) {
                 commandContainer.command(massage).execute(update);
             } else {
-                new SendMassageService(telegramBot).sendMassage(update.message().chat().id(), "бот поддерживает команды начинающиеся с / \n"
+                new SendMassageService(telegramBot).sendMassage(update.message().chat().id(),
+                        "бот поддерживает команды начинающиеся с / \n"
                         + "чтобы начать общение с ботов введите " + CommandName.START.getCommandName()
                         + " или выбериет уже предложенные ранее Вам команды");
             }

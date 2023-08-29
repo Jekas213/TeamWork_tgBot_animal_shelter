@@ -8,7 +8,7 @@ public class CatsReportCommand implements Command {
 
     private final SendMassageService sendMassageService;
 
-    public final static String REPORT = "Отчёт о питомце";
+    public static final String REPORT = "Отчёт о питомце";
 
     public CatsReportCommand(SendMassageService sendMassageService) {
         this.sendMassageService = sendMassageService;

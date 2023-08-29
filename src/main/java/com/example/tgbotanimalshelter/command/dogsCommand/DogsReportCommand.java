@@ -8,7 +8,7 @@ public class DogsReportCommand implements Command {
 
     private final SendMassageService sendMassageService;
 
-    public final static String REPORT = "Отчёт о собаках";
+    public static final String REPORT = "Отчёт о собаках";
 
     public DogsReportCommand(SendMassageService sendMassageService) {
         this.sendMassageService = sendMassageService;
