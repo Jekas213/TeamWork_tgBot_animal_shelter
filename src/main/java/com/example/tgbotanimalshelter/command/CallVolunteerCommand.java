@@ -7,7 +7,7 @@ public class CallVolunteerCommand implements Command {
 
     private final SendMassageService sendMassageService;
 
-    public final static String VOLUNTEER = "связаться в волонтером";
+    public static final String VOLUNTEER = "связаться в волонтером";
 
     public CallVolunteerCommand(SendMassageService sendMassageService) {
         this.sendMassageService = sendMassageService;

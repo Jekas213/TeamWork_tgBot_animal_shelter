@@ -9,7 +9,7 @@ public class UnknownCommand implements Command {
 
     private final SendMassageService sendMassageService;
 
-    public final static String UNKNOWN = "такой команды нет, введите команду из предложенных Вам, либо начните заного введя команду " + START.getCommandName();
+    public static final String UNKNOWN = "такой команды нет, введите команду из предложенных Вам, либо начните заного введя команду " + START.getCommandName();
 
     public UnknownCommand(SendMassageService sendMassageService) {
         this.sendMassageService = sendMassageService;

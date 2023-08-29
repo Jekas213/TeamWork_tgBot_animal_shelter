@@ -8,7 +8,7 @@ public class TakeCatsCommand implements Command {
 
     private final SendMassageService sendMassageService;
 
-    public final static String TAKE_CATS = "Информация о том как взять кошку из приюта";
+    public static final String TAKE_CATS = "Информация о том как взять кошку из приюта";
 
     public TakeCatsCommand(SendMassageService sendMassageService) {
         this.sendMassageService = sendMassageService;

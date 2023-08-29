@@ -8,7 +8,7 @@ public class InfoForShelterCatsCommand implements Command {
 
     private final SendMassageService sendMassageService;
 
-    public final static String INFO = "Вся информация о приюте для кошек";
+    public static final String INFO = "Вся информация о приюте для кошек";
 
     public InfoForShelterCatsCommand(SendMassageService sendMassageService) {
         this.sendMassageService = sendMassageService;
