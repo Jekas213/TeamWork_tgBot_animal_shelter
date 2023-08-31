@@ -29,7 +29,8 @@ public class DogParent implements Serializable {
     private String address;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToOne
     @JoinColumn(name = "dog_id", referencedColumnName = "id")

@@ -29,7 +29,8 @@ public class CatParent implements Serializable {
     private String address;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToOne
     @JoinColumn(name = "cat_id", referencedColumnName = "id")
