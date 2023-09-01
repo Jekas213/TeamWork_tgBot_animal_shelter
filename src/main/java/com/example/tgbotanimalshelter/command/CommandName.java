@@ -12,6 +12,7 @@ public enum CommandName {
     CAT_REPORT("/sendReportCats"),
     CALL_VOLUNTEER("/callVolunteer");
 
+
     private final String commandName;
 
     CommandName(String commandName) {
