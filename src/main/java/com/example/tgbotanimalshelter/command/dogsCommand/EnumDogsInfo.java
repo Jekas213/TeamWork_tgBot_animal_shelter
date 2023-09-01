@@ -2,6 +2,8 @@ package com.example.tgbotanimalshelter.command.dogsCommand;
 
 import com.example.tgbotanimalshelter.command.CommandName;
 
+import static com.example.tgbotanimalshelter.command.CommandName.*;
+
 public enum EnumDogsInfo {
 
     REPORT_DOG("Отчёт о питомце"),
@@ -12,7 +14,7 @@ public enum EnumDogsInfo {
                     + "%s Как взять животное из приюта \n"
                     + "%s Прислать отчет о питомце \n"
                     + "%s Позвать волонтера",
-            CommandName.INFO_DOGS.getCommandName(), CommandName.TAKE_DOGS.getCommandName(), CommandName.DOG_REPORT.getCommandName(), CommandName.CALL_VOLUNTEER.getCommandName()));
+            INFO_DOGS.getCommandName(), CommandName.TAKE_DOGS.getCommandName(), DOG_REPORT.getCommandName(), CALL_VOLUNTEER.getCommandName()));
 
     private final String enumTest;
 
