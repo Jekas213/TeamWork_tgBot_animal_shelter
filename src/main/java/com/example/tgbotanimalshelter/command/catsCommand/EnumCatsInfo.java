@@ -5,6 +5,11 @@ import com.example.tgbotanimalshelter.command.CommandName;
 import static com.example.tgbotanimalshelter.command.CommandName.*;
 import static com.example.tgbotanimalshelter.command.CommandName.CALL_VOLUNTEER;
 
+/**
+ * The text of the description of the commands for the shelter for cats
+ * @see EnumCatsInfo#getCommandName()
+ * @see java.lang.Enum
+ */
 public enum EnumCatsInfo {
 
     REPORT_CAT("Отчёт о питомце"),
