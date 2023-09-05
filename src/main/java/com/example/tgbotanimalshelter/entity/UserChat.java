@@ -14,7 +14,6 @@ import java.util.Objects;
 @ToString
 public class UserChat {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

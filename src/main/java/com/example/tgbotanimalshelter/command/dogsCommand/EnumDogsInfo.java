@@ -1,9 +1,14 @@
 package com.example.tgbotanimalshelter.command.dogsCommand;
 
 import com.example.tgbotanimalshelter.command.CommandName;
+import com.example.tgbotanimalshelter.command.catsCommand.EnumCatsInfo;
 
 import static com.example.tgbotanimalshelter.command.CommandName.*;
-
+/**
+ * The text of the description of the commands for the shelter for dogs
+ * @see EnumDogsInfo#getCommandName()
+ * @see java.lang.Enum
+ */
 public enum EnumDogsInfo {
 
     REPORT_DOG("Отчёт о питомце"),
