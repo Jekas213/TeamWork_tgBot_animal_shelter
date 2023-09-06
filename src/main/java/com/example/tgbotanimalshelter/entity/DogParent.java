@@ -3,7 +3,6 @@ package com.example.tgbotanimalshelter.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -13,11 +12,10 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-public class DogParent implements Serializable {
+public class DogParent {
     @Id
-    @OneToOne
-    @JoinColumn(name = "chat_id", referencedColumnName = "id")
-    private UserChat userChat;
+    @Column(name = "chat_id")
+    private Long chatId;
 
     @Column(name = "full_name")
     private String fullName;
@@ -34,18 +32,18 @@ public class DogParent implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "dog_id", referencedColumnName = "id")
-    private DogShelter dog;
+    private Dog dog;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DogParent dogParent = (DogParent) o;
-        return Objects.equals(userChat, dogParent.userChat);
+        return Objects.equals(chatId, dogParent.chatId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userChat);
+        return Objects.hash(chatId);
     }
 }

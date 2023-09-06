@@ -10,14 +10,14 @@ public enum EnumOtherInfo {
     START_FIRST("выберите интерисующий Вас приют \n" + DOGS.getCommandName()
             + " - приют для собак \n" + CATS.getCommandName() + " - приют для кошек");
 
-    private final String enumTest;
+    private final String commandName;
 
     EnumOtherInfo(String enumTest) {
-        this.enumTest = enumTest;
+        this.commandName = enumTest;
     }
 
 
     public String getCommandName() {
-        return enumTest;
+        return commandName;
     }
 }

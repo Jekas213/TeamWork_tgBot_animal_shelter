@@ -12,7 +12,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-public abstract class Shelter {
+public abstract class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -33,7 +33,7 @@ public abstract class Shelter {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Shelter shelter = (Shelter) o;
+        Animal shelter = (Animal) o;
         return Objects.equals(id, shelter.id);
     }
 
