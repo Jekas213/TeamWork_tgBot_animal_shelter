@@ -17,6 +17,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
         <telegram.version>5.7.0</telegram.version>
+        <springdoc.version>1.7.0</springdoc.version>
     </properties>
     <dependencies>
         <dependency>
@@ -49,6 +50,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
 
         <dependency>

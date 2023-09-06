@@ -1,0 +1,434 @@
+openapi: "3.0.1"
+info:
+  title: "Animal Shelter"
+  version: 0.0.1
+servers:
+  - url: "http://localhost:8080"
+    description: "Shelter API"
+paths:
+  /dogParent/{id}:
+    get:
+      tags:
+        - "dog-parent-controller"
+      operationId: "findById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DogParent"
+    put:
+      tags:
+        - "dog-parent-controller"
+      operationId: "update"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DogParent"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DogParent"
+    delete:
+      tags:
+        - "dog-parent-controller"
+      operationId: "delete"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /dog/{id}:
+    get:
+      tags:
+        - "dog-controller"
+      operationId: "findById_1"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Dog"
+    put:
+      tags:
+        - "dog-controller"
+      operationId: "update_1"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Dog"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Dog"
+    delete:
+      tags:
+        - "dog-controller"
+      operationId: "delete_1"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /catParent/{id}:
+    get:
+      tags:
+        - "cat-parent-controller"
+      operationId: "findById_2"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CatParent"
+    put:
+      tags:
+        - "cat-parent-controller"
+      operationId: "update_2"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CatParent"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CatParent"
+    delete:
+      tags:
+        - "cat-parent-controller"
+      operationId: "delete_2"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /cat/{id}:
+    get:
+      tags:
+        - "cat-controller"
+      operationId: "findById_3"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Cat"
+    put:
+      tags:
+        - "cat-controller"
+      operationId: "update_3"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cat"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Cat"
+    delete:
+      tags:
+        - "cat-controller"
+      operationId: "delete_3"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /dog:
+    get:
+      tags:
+        - "dog-controller"
+      operationId: "findAll"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Dog"
+    post:
+      tags:
+        - "dog-controller"
+      operationId: "create"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Dog"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Dog"
+  /dogParent:
+    get:
+      tags:
+        - "dog-parent-controller"
+      operationId: "findAll_1"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/DogParent"
+    post:
+      tags:
+        - "dog-parent-controller"
+      operationId: "create_1"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DogParent"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DogParent"
+  /cat:
+    get:
+      tags:
+        - "cat-controller"
+      operationId: "findAll_2"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Cat"
+    post:
+      tags:
+        - "cat-controller"
+      operationId: "create_2"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cat"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Cat"
+  /catParent:
+    get:
+      tags:
+        - "cat-parent-controller"
+      operationId: "findAll_3"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/CatParent"
+    post:
+      tags:
+        - "cat-parent-controller"
+      operationId: "create_3"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CatParent"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CatParent"
+components:
+  schemas:
+    Dog:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+        dateBirthday:
+          type: "string"
+          format: "date"
+        description:
+          type: "string"
+        taken:
+          type: "boolean"
+    DogParent:
+      type: "object"
+      properties:
+        chatId:
+          type: "integer"
+          format: "int64"
+        fullName:
+          type: "string"
+        phoneNumber:
+          type: "string"
+        address:
+          type: "string"
+        status:
+          type: "string"
+          enum:
+            - "SEARCH"
+            - "TRIAL_PERIOD"
+            - "APPROVED"
+            - "REFUSED"
+        dog:
+          $ref: "#/components/schemas/Dog"
+    Cat:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        name:
+          type: "string"
+        dateBirthday:
+          type: "string"
+          format: "date"
+        description:
+          type: "string"
+        taken:
+          type: "boolean"
+    CatParent:
+      type: "object"
+      properties:
+        chatId:
+          type: "integer"
+          format: "int64"
+        fullName:
+          type: "string"
+        phoneNumber:
+          type: "string"
+        address:
+          type: "string"
+        status:
+          type: "string"
+          enum:
+            - "SEARCH"
+            - "TRIAL_PERIOD"
+            - "APPROVED"
+            - "REFUSED"
+        cat:
+          $ref: "#/components/schemas/Cat"
