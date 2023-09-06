@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "cat_shelter")
+@Table(name = "cat")
 @NoArgsConstructor
 public class Cat extends Animal {
     public Cat(Long id, String name, LocalDate dateBirthday, String description, Boolean taken) {
