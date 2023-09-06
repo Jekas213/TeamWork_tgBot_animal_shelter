@@ -22,14 +22,14 @@ public enum EnumCatsInfo {
                     + "%s Позвать волонтера",
             INFO_CATS.getCommandName(), CommandName.TAKE_CATS.getCommandName(), CAT_REPORT.getCommandName(), CALL_VOLUNTEER.getCommandName()));
 
-    private final String enumTest;
+    private final String commandName;
 
     EnumCatsInfo(String enumTest) {
-        this.enumTest = enumTest;
+        this.commandName = enumTest;
     }
 
 
     public String getCommandName() {
-        return enumTest;
+        return commandName;
     }
 }
