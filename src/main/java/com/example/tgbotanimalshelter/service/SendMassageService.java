@@ -3,7 +3,6 @@ package com.example.tgbotanimalshelter.service;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.SendMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 public class SendMassageService {
     private final TelegramBot telegramBot;
 
-    @Autowired
     public SendMassageService(TelegramBot telegramBot) {
         this.telegramBot = telegramBot;
     }

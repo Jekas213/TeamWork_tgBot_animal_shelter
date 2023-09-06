@@ -27,8 +27,8 @@ public abstract class Shelter {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "is_taken")
-    private Boolean isTaken;
+    @Column(name = "taken")
+    private Boolean taken;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
