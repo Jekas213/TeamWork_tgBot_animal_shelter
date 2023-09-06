@@ -15,7 +15,7 @@
         </not>
     </preConditions>
     <changeSet id="1-base-schema" author="SavelyDomnikov">
-        <createTable tableName="cat_shelter">
+        <createTable tableName="cat">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -31,12 +31,12 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addDefaultValue tableName="cat_shelter" columnName="taken" defaultValue="false"/>
+        <addDefaultValue tableName="cat" columnName="taken" defaultValue="false"/>
         <rollback>
-            <dropTable tableName="cat_shelter"/>
+            <dropTable tableName="cat"/>
         </rollback>
 
-        <createTable tableName="dog_shelter">
+        <createTable tableName="dog">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
@@ -51,9 +51,9 @@
             <column name="taken" type="BOOLEAN">
             </column>
         </createTable>
-        <addDefaultValue tableName="cat_shelter" columnName="taken" defaultValue="false"/>
+        <addDefaultValue tableName="dog" columnName="taken" defaultValue="false"/>
         <rollback>
-            <dropTable tableName="dog_shelter"/>
+            <dropTable tableName="dog"/>
         </rollback>
 
         <createTable tableName="user_chat">
@@ -95,7 +95,7 @@
         <addForeignKeyConstraint baseTableName="cat_parent"
                                  baseColumnNames="cat_id"
                                  constraintName="cat_id_fk"
-                                 referencedTableName="cat_shelter"
+                                 referencedTableName="cat"
                                  referencedColumnNames="id"/>
         <rollback>
             <dropTable tableName="cat_parent"/>
@@ -129,7 +129,7 @@
         <addForeignKeyConstraint baseTableName="dog_parent"
                                  baseColumnNames="dog_id"
                                  constraintName="dog_id_fk"
-                                 referencedTableName="dog_shelter"
+                                 referencedTableName="dog"
                                  referencedColumnNames="id"/>
         <rollback>
             <dropTable tableName="dog_parent"/>
