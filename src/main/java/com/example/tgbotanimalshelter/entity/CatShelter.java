@@ -10,8 +10,8 @@ import java.time.LocalDate;
 @Table(name = "cat_shelter")
 @NoArgsConstructor
 public class CatShelter extends Shelter {
-    public CatShelter(Long id, String name, LocalDate dateBirthday, String description, Boolean isTaken) {
-        super(id, name, dateBirthday, description, isTaken);
+    public CatShelter(Long id, String name, LocalDate dateBirthday, String description, Boolean taken) {
+        super(id, name, dateBirthday, description, taken);
     }
 }
 

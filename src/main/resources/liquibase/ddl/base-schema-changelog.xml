@@ -27,11 +27,11 @@
             </column>
             <column name="description" type="TEXT">
             </column>
-            <column name="is_taken" type="BOOLEAN">
+            <column name="taken" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addDefaultValue tableName="cat_shelter" columnName="is_taken" defaultValue="false"/>
+        <addDefaultValue tableName="cat_shelter" columnName="taken" defaultValue="false"/>
         <rollback>
             <dropTable tableName="cat_shelter"/>
         </rollback>
@@ -48,10 +48,10 @@
             </column>
             <column name="description" type="TEXT">
             </column>
-            <column name="is_taken" type="BOOLEAN">
+            <column name="taken" type="BOOLEAN">
             </column>
         </createTable>
-        <addDefaultValue tableName="cat_shelter" columnName="is_taken" defaultValue="false"/>
+        <addDefaultValue tableName="cat_shelter" columnName="taken" defaultValue="false"/>
         <rollback>
             <dropTable tableName="dog_shelter"/>
         </rollback>

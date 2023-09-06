@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Table(name = "dog_shelter")
 @NoArgsConstructor
 public class DogShelter extends Shelter {
-    public DogShelter(Long id, String name, LocalDate dateBirthday, String description, Boolean isTaken) {
-        super(id, name, dateBirthday, description, isTaken);
+    public DogShelter(Long id, String name, LocalDate dateBirthday, String description, Boolean taken) {
+        super(id, name, dateBirthday, description, taken);
     }
 }

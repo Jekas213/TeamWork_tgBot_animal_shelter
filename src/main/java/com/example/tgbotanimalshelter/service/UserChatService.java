@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserChatService {
@@ -24,13 +25,17 @@ public class UserChatService {
      */
     public void editUserChat(long chatId, String userName) {
         UserChat userChat = new UserChat(chatId, userName);
-        if (!findAll().contains(userChat)) {
+        if (findById(chatId).isEmpty()) {
             userChatRepository.save(userChat);
         }
     }
 
     public List<UserChat> findAll() {
         return userChatRepository.findAll();
+    }
+
+    public Optional<UserChat> findById(long id) {
+       return userChatRepository.findById(id);
     }
 
 }

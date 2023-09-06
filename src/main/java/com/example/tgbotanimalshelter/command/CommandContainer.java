@@ -3,13 +3,14 @@ package com.example.tgbotanimalshelter.command;
 import com.example.tgbotanimalshelter.command.catsCommand.EnumCatsInfo;
 import com.example.tgbotanimalshelter.command.dogsCommand.EnumDogsInfo;
 import com.example.tgbotanimalshelter.service.SendMassageService;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.tgbotanimalshelter.command.CommandName.*;
 
-
+@Component
 public class CommandContainer {
 
     private final Map<String, Command> commandMap;
