@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <preConditions onFail="WARN">
+        <not>
+            <tableExists tableName="cat_shelter"/>
+            <tableExists tableName="dog_shelter"/>
+            <tableExists tableName="user_chat"/>
+            <tableExists tableName="cat_parent"/>
+            <tableExists tableName="dog_parent"/>
+        </not>
+    </preConditions>
+    <changeSet id="1-base-schema" author="SavelyDomnikov">
+        <createTable tableName="cat">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_birthday" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+            </column>
+            <column name="taken" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addDefaultValue tableName="cat" columnName="taken" defaultValue="false"/>
+        <rollback>
+            <dropTable tableName="cat"/>
+        </rollback>
+
+        <createTable tableName="dog">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_birthday" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+            </column>
+            <column name="taken" type="BOOLEAN">
+            </column>
+        </createTable>
+        <addDefaultValue tableName="dog" columnName="taken" defaultValue="false"/>
+        <rollback>
+            <dropTable tableName="dog"/>
+        </rollback>
+
+        <createTable tableName="user_chat">
+            <column name="id" type="BIGINT" autoIncrement="false">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="user_chat"/>
+        </rollback>
+
+        <createTable tableName="cat_parent">
+            <column name="chat_id" type="BIGINT" autoIncrement="false">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="full_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="address" type="VARCHAR(50)">
+                <constraints unique="true"/>
+            </column>
+            <column name="status" type="VARCHAR(20)">
+            </column>
+            <column name="cat_id" type="BIGINT">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+        <addDefaultValue tableName="cat_parent" columnName="status" defaultValue="SEARCH"/>
+        <addForeignKeyConstraint baseTableName="cat_parent"
+                                 baseColumnNames="chat_id"
+                                 constraintName="cat_parent_chat_id_pk"
+                                 referencedTableName="user_chat"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="cat_parent"
+                                 baseColumnNames="cat_id"
+                                 constraintName="cat_id_fk"
+                                 referencedTableName="cat"
+                                 referencedColumnNames="id"/>
+        <rollback>
+            <dropTable tableName="cat_parent"/>
+        </rollback>
+
+        <createTable tableName="dog_parent">
+            <column name="chat_id" type="BIGINT" autoIncrement="false">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="full_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="address" type="VARCHAR(50)">
+                <constraints unique="true"/>
+            </column>
+            <column name="status" type="VARCHAR(20)">
+            </column>
+            <column name="dog_id" type="BIGINT">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+        <addDefaultValue tableName="dog_parent" columnName="status" defaultValue="SEARCH"/>
+        <addForeignKeyConstraint baseTableName="dog_parent"
+                                 baseColumnNames="chat_id"
+                                 constraintName="dog_parent_chat_id_pk"
+                                 referencedTableName="user_chat"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="dog_parent"
+                                 baseColumnNames="dog_id"
+                                 constraintName="dog_id_fk"
+                                 referencedTableName="dog"
+                                 referencedColumnNames="id"/>
+        <rollback>
+            <dropTable tableName="dog_parent"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
