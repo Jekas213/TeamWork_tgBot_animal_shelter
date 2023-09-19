@@ -22,8 +22,8 @@ public enum EnumDogsInfo {
 
     private final String commandName;
 
-    EnumDogsInfo(String enumTest) {
-        this.commandName = enumTest;
+    EnumDogsInfo(String commandName) {
+        this.commandName = commandName;
     }
 
 
