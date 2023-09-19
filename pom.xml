@@ -18,6 +18,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <telegram.version>5.7.0</telegram.version>
         <springdoc.version>1.7.0</springdoc.version>
+        <testcontainers.version>1.18.3</testcontainers.version>
+        <javafaker.version>1.0.2</javafaker.version>
     </properties>
     <dependencies>
         <dependency>
@@ -56,6 +58,20 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${springdoc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
