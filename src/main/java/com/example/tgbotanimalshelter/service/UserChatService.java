@@ -1,5 +1,6 @@
 package com.example.tgbotanimalshelter.service;
 
+import com.example.tgbotanimalshelter.entity.StatusUserChat;
 import com.example.tgbotanimalshelter.entity.UserChat;
 import com.example.tgbotanimalshelter.repository.UserChatRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.tgbotanimalshelter.entity.StatusUserChat.*;
 
 @Service
 public class UserChatService {
@@ -20,11 +23,12 @@ public class UserChatService {
     /**
      * If such a user is not in the repository, then it is saved to the repository<br>
      * The repository method is used {@link JpaRepository#findAll()}, {@link JpaRepository#save(Object)}
+     *
      * @param chatId
      * @param userName
      */
     public void editUserChat(long chatId, String userName) {
-        UserChat userChat = new UserChat(chatId, userName);
+        UserChat userChat = new UserChat(chatId, userName, BASIC_STATUS);
         if (findById(chatId).isEmpty()) {
             userChatRepository.save(userChat);
         }
@@ -35,7 +39,11 @@ public class UserChatService {
     }
 
     public Optional<UserChat> findById(long id) {
-       return userChatRepository.findById(id);
+        return userChatRepository.findById(id);
+    }
+
+    public Optional<StatusUserChat> getUserCharStatus(long id) {
+        return Optional.ofNullable(userChatRepository.findStatusUserChatById(id));
     }
 
 }

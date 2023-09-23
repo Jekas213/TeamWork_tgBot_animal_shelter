@@ -19,6 +19,9 @@ public class UserChat {
 
     @Column(name = "username")
     private String username;
+    @Column(name = "status_user_chat")
+    @Enumerated(EnumType.STRING)
+    private StatusUserChat statusUserChat;
 
     @Override
     public boolean equals(Object o) {

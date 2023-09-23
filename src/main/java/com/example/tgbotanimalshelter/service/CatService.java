@@ -11,7 +11,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class CatService implements CrudService<Long, Cat> {
 
     private final CatRepository catRepository;

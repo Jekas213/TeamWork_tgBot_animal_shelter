@@ -62,6 +62,8 @@
             </column>
             <column name="username" type="VARCHAR(50)">
             </column>
+            <column name="status_user_chat" type="VARCHAR(50)">
+            </column>
         </createTable>
         <rollback>
             <dropTable tableName="user_chat"/>
