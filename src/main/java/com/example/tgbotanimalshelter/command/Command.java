@@ -5,5 +5,5 @@ import com.pengrad.telegrambot.model.Update;
 import java.util.List;
 
 public interface Command {
-    void execute(Update update);
+    void execute(long chatId);
 }

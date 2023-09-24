@@ -62,6 +62,8 @@
             </column>
             <column name="username" type="VARCHAR(50)">
             </column>
+            <column name="status_user_chat" type="VARCHAR(50)">
+            </column>
         </createTable>
         <rollback>
             <dropTable tableName="user_chat"/>
@@ -72,10 +74,10 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="full_name" type="VARCHAR(50)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="phone_number" type="VARCHAR(20)">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="true" unique="true"/>
             </column>
             <column name="address" type="VARCHAR(50)">
                 <constraints unique="true"/>
@@ -106,10 +108,10 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="full_name" type="VARCHAR(50)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="phone_number" type="VARCHAR(20)">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="true" unique="true"/>
             </column>
             <column name="address" type="VARCHAR(50)">
                 <constraints unique="true"/>
