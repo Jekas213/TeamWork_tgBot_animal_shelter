@@ -1,6 +1,7 @@
 package com.example.tgbotanimalshelter.command;
 
 import com.example.tgbotanimalshelter.service.SendMassageService;
+import com.example.tgbotanimalshelter.service.UserChatService;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class CommandContainer {
     private final Map<String, Command> commandMap;
     private final Command unknownCommand;
 
-    public CommandContainer(SendMassageService sendMassageService) {
+    public CommandContainer(SendMassageService sendMassageService, UserChatService userChatService) {
         commandMap = new HashMap<>();
         commandMap.put(START.getCommandName(), new InfoCommand(sendMassageService, EnumOtherInfo.START_FIRST.getCommandName()));
         commandMap.put(DOGS.getCommandName(), new InfoCommand(sendMassageService, INFO_START_DOGS.getCommandName()));
@@ -33,12 +34,12 @@ public class CommandContainer {
         commandMap.put(ADDRESS_CAT.getCommandName(), new InfoCommand(sendMassageService, ADDRESS_CAT_SHELTERS.getCommandName()));
         commandMap.put(CONTACT_CAT.getCommandName(), new InfoCommand(sendMassageService, CONTACT_CAT_SHELTERS.getCommandName()));
         commandMap.put(SAFETY_CAT.getCommandName(), new InfoCommand(sendMassageService, SAFETY_RECOMMENDATION_CAT.getCommandName()));
-        commandMap.put(RECORDING_CAT.getCommandName(), new InfoCommand(sendMassageService, RECORDING_CONTACT_CAT.getCommandName()));
+        commandMap.put(RECORDING_CAT.getCommandName(), new RecordingContactCommandCat(sendMassageService, RECORDING_CONTACT_CAT.getCommandName(), userChatService));
         commandMap.put(DESCRIPTION_DOG.getCommandName(), new InfoCommand(sendMassageService, DESCRIPTION_DOG_SHELTERS.getCommandName()));
         commandMap.put(ADDRESS_DOG.getCommandName(), new InfoCommand(sendMassageService, ADDRESS_DOG_SHELTERS.getCommandName()));
         commandMap.put(CONTACT_DOG.getCommandName(), new InfoCommand(sendMassageService, CONTACT_DOG_SHELTERS.getCommandName()));
         commandMap.put(SAFETY_DOG.getCommandName(), new InfoCommand(sendMassageService, SAFETY_RECOMMENDATION_DOG.getCommandName()));
-        commandMap.put(RECORDING_DOG.getCommandName(), new InfoCommand(sendMassageService, RECORDING_CONTACT_DOG.getCommandName()));
+        commandMap.put(RECORDING_DOG.getCommandName(), new RecordingContactCommandDog(sendMassageService, RECORDING_CONTACT_DOG.getCommandName(), userChatService));
         commandMap.put(DATING_RULES_DOG_COM.getCommandName(), new InfoCommand(sendMassageService, DATING_RULES_DOG.getCommandName()));
         commandMap.put(DOCUMENTS_DOG_COM.getCommandName(), new InfoCommand(sendMassageService, DOCUMENTS_DOG.getCommandName()));
         commandMap.put(TRANSPORTATION_DOG_COM.getCommandName(), new InfoCommand(sendMassageService, TRANSPORTATION_DOG.getCommandName()));

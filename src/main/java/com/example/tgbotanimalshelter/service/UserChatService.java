@@ -2,9 +2,11 @@ package com.example.tgbotanimalshelter.service;
 
 import com.example.tgbotanimalshelter.entity.StatusUserChat;
 import com.example.tgbotanimalshelter.entity.UserChat;
+import com.example.tgbotanimalshelter.exception.CatNotFoundException;
 import com.example.tgbotanimalshelter.repository.UserChatRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +46,30 @@ public class UserChatService {
 
     public Optional<StatusUserChat> getUserCharStatus(long id) {
         return Optional.ofNullable(userChatRepository.findStatusUserChatById(id));
+    }
+
+    public void inviteWaitPhoneStatusDog(long chatId) {
+        UserChat userChat = findById(chatId).get();
+        userChat.setStatusUserChat(WAIT_FOR_NUMBER_DOG);
+        userChatRepository.save(userChat);
+
+    }
+
+    public void inviteWaitPhoneStatusCat(long chatId) {
+        UserChat userChat = findById(chatId).get();
+        userChat.setStatusUserChat(WAIT_FOR_NUMBER_CAT);
+        userChatRepository.save(userChat);
+
+    }
+
+    @Transactional
+    public UserChat update(Long id, UserChat userChat) {
+        if (userChatRepository.existsById(id)) {
+            userChat.setId(id);
+            userChatRepository.save(userChat);
+            return userChat;
+        }
+        throw new CatNotFoundException();
     }
 
 }
