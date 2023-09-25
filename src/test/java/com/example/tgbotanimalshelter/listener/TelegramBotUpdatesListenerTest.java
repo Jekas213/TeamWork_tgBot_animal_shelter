@@ -49,8 +49,8 @@ class TelegramBotUpdatesListenerTest {
     private TelegramBotUpdatesListener out;
 
     private static final String TEXT = "/";
-    private static final Long chatId = 1L;
-    private static final String firstName = "username";
+    private static final Long CHAT_ID = 1L;
+    private static final String FIRST_NAME = "username";
 
     @Test
     void initTest() {
@@ -64,25 +64,25 @@ class TelegramBotUpdatesListenerTest {
         when(message.text()).thenReturn(TEXT);
         when(message.chat()).thenReturn(chat);
         when(message.from()).thenReturn(user);
-        when(chat.id()).thenReturn(chatId);
-        when(user.firstName()).thenReturn(firstName);
+        when(chat.id()).thenReturn(CHAT_ID);
+        when(user.firstName()).thenReturn(FIRST_NAME);
 
-        when(userChatService.getUserChatStatus(chatId)).thenReturn(StatusUserChat.WAIT_FOR_NAME_DOG);
+        when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_NAME_DOG);
         out.process(List.of(update));
-        verify(recordingDogService).recordingNameDog(chatId, TEXT);
+        verify(recordingDogService).recordingNameDog(CHAT_ID, TEXT);
 
-        when(userChatService.getUserChatStatus(chatId)).thenReturn(StatusUserChat.WAIT_FOR_NUMBER_DOG);
+        when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_NUMBER_DOG);
         out.process(List.of(update));
-        verify(recordingDogService).recordingNumberPhoneDog(chatId, TEXT);
+        verify(recordingDogService).recordingNumberPhoneDog(CHAT_ID, TEXT);
 
-        when(userChatService.getUserChatStatus(chatId)).thenReturn(StatusUserChat.WAIT_FOR_NAME_CAT);
+        when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_NAME_CAT);
         out.process(List.of(update));
-        verify(recordingCatService).recordingNameCat(chatId, TEXT);
+        verify(recordingCatService).recordingNameCat(CHAT_ID, TEXT);
 
-        when(userChatService.getUserChatStatus(chatId)).thenReturn(StatusUserChat.WAIT_FOR_NUMBER_CAT);
+        when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_NUMBER_CAT);
         out.process(List.of(update));
-        verify(recordingCatService).recordingNumberPhoneCat(chatId, TEXT);
+        verify(recordingCatService).recordingNumberPhoneCat(CHAT_ID, TEXT);
 
-        verify(userChatService, times(4)).editUserChat(chatId, firstName);
+        verify(userChatService, times(4)).editUserChat(CHAT_ID, FIRST_NAME);
     }
 }
