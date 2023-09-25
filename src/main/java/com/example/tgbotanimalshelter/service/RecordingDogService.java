@@ -28,14 +28,14 @@ public class RecordingDogService {
     }
 
 
-    public void recordingNumberPhone(long chatId, String text) {
+    public void recordingNumberPhoneDog(long chatId, String text) {
         Matcher matcher = PATTERN_NUMBER.matcher(text);
         if (matcher.matches()) {
             DogParent dogParent = new DogParent();
             dogParent.setChatId(chatId);
             dogParent.setPhoneNumber(text);
             dogParentRepository.save(dogParent);
-            UserChat userChat = userChatService.findById(chatId).get();
+            UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(WAIT_FOR_NAME_DOG);
             userChatService.update(chatId, userChat);
             sendMassageService.sendMassage(chatId, "введите имя");
@@ -45,15 +45,15 @@ public class RecordingDogService {
         }
     }
 
-    public void recordingName(long chatId, String text) {
+    public void recordingNameDog(long chatId, String text) {
         if (PATTERN_NAME.matcher(text).find()) {
             DogParent dogParent = dogParentService.findById(chatId);
             dogParent.setFullName(text);
             dogParentService.update(chatId, dogParent);
-            UserChat userChat = userChatService.findById(chatId).get();
+            UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(BASIC_STATUS);
             userChatService.update(chatId, userChat);
-            sendMassageService.sendMassage(chatId, "/start - Вкрнуться в главное меню");
+            sendMassageService.sendMassage(chatId, "/start - Вернуться в главное меню");
         } else {
             sendMassageService.sendMassage(chatId, "введите корректное имя");
         }

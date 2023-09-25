@@ -1,9 +1,6 @@
 package com.example.tgbotanimalshelter.handler;
 
-import com.example.tgbotanimalshelter.exception.CatNotFoundException;
-import com.example.tgbotanimalshelter.exception.CatParentNotFoundException;
-import com.example.tgbotanimalshelter.exception.DogNotFoundException;
-import com.example.tgbotanimalshelter.exception.DogParentNotFoundException;
+import com.example.tgbotanimalshelter.exception.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,7 +13,9 @@ public class BaseExceptionHandler {
             CatNotFoundException.class,
             DogNotFoundException.class,
             DogParentNotFoundException.class,
-            CatParentNotFoundException.class})
+            CatParentNotFoundException.class,
+            UserNotFoundException.class
+    })
     ResponseEntity<Void> handleException() {
         return ResponseEntity.notFound().build();
     }

@@ -32,7 +32,7 @@ public class RecordingCatService {
             catParent.setChatId(chatId);
             catParent.setPhoneNumber(text);
             catParentRepository.save(catParent);
-            UserChat userChat = userChatService.findById(chatId).get();
+            UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(WAIT_FOR_NAME_CAT);
             userChatService.update(chatId, userChat);
             sendMassageService.sendMassage(chatId, "введите имя");
@@ -47,10 +47,10 @@ public class RecordingCatService {
             CatParent catParent = catParentService.findById(chatId);
             catParent.setFullName(text);
             catParentService.update(chatId, catParent);
-            UserChat userChat = userChatService.findById(chatId).get();
+            UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(BASIC_STATUS);
             userChatService.update(chatId, userChat);
-            sendMassageService.sendMassage(chatId, "/start - Вкрнуться в главное меню");
+            sendMassageService.sendMassage(chatId, "/start - Вернуться в главное меню");
         } else {
             sendMassageService.sendMassage(chatId, "введите корректное имя");
         }

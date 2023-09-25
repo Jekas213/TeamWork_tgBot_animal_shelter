@@ -51,14 +51,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             long chatId = update.message().chat().id();
             String name = update.message().from().firstName();
             userChatService.editUserChat(chatId, name);
-            StatusUserChat status = userChatService.getUserCharStatus(chatId).get();
+            StatusUserChat status = userChatService.getUserChatStatus(chatId);
             if (update.message() != null && massage != null) {
                 if (BASIC_STATUS.equals(status)) {
                     processText(chatId, massage);
                 } else if (WAIT_FOR_NAME_DOG.equals(status)) {
-                    recordingDogService.recordingName(chatId, massage);
+                    recordingDogService.recordingNameDog(chatId, massage);
                 } else if (WAIT_FOR_NUMBER_DOG.equals(status)) {
-                    recordingDogService.recordingNumberPhone(chatId, massage);
+                    recordingDogService.recordingNumberPhoneDog(chatId, massage);
                 } else if (WAIT_FOR_NUMBER_CAT.equals(status)) {
                     recordingCatService.recordingNumberPhoneCat(chatId, massage);
                 } else if (WAIT_FOR_NAME_CAT.equals(status)) {

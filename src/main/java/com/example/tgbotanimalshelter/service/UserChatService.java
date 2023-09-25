@@ -2,7 +2,7 @@ package com.example.tgbotanimalshelter.service;
 
 import com.example.tgbotanimalshelter.entity.StatusUserChat;
 import com.example.tgbotanimalshelter.entity.UserChat;
-import com.example.tgbotanimalshelter.exception.CatNotFoundException;
+import com.example.tgbotanimalshelter.exception.UserNotFoundException;
 import com.example.tgbotanimalshelter.repository.UserChatRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.Optional;
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.*;
 
 @Service
-public class UserChatService {
+public class UserChatService implements CrudService<Long, UserChat>{
 
     private final UserChatRepository userChatRepository;
 
@@ -29,9 +29,10 @@ public class UserChatService {
      * @param chatId
      * @param userName
      */
+    @Transactional
     public void editUserChat(long chatId, String userName) {
         UserChat userChat = new UserChat(chatId, userName, BASIC_STATUS);
-        if (findById(chatId).isEmpty()) {
+        if (userChatRepository.findById(chatId).isEmpty()) {
             userChatRepository.save(userChat);
         }
     }
@@ -40,23 +41,31 @@ public class UserChatService {
         return userChatRepository.findAll();
     }
 
-    public Optional<UserChat> findById(long id) {
-        return userChatRepository.findById(id);
+    @Override
+    public UserChat findById(Long id) {
+        return userChatRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
-    public Optional<StatusUserChat> getUserCharStatus(long id) {
-        return Optional.ofNullable(userChatRepository.findStatusUserChatById(id));
+    @Transactional
+    @Override
+    public UserChat create(UserChat userChat) {
+        return userChatRepository.save(userChat);
     }
 
+    public StatusUserChat getUserChatStatus(long id) {
+        return Optional.ofNullable(userChatRepository.findStatusUserChatById(id)).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Transactional
     public void inviteWaitPhoneStatusDog(long chatId) {
-        UserChat userChat = findById(chatId).get();
+        UserChat userChat = findById(chatId);
         userChat.setStatusUserChat(WAIT_FOR_NUMBER_DOG);
         userChatRepository.save(userChat);
 
     }
-
+    @Transactional
     public void inviteWaitPhoneStatusCat(long chatId) {
-        UserChat userChat = findById(chatId).get();
+        UserChat userChat = findById(chatId);
         userChat.setStatusUserChat(WAIT_FOR_NUMBER_CAT);
         userChatRepository.save(userChat);
 
@@ -69,7 +78,17 @@ public class UserChatService {
             userChatRepository.save(userChat);
             return userChat;
         }
-        throw new CatNotFoundException();
+        throw new UserNotFoundException();
+    }
+
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        if (userChatRepository.existsById(id)) {
+            userChatRepository.deleteById(id);
+            return;
+        }
+        throw new UserNotFoundException();
     }
 
 }
