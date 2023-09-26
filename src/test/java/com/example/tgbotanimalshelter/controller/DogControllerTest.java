@@ -1,8 +1,8 @@
 package com.example.tgbotanimalshelter.controller;
 
-import com.example.tgbotanimalshelter.entity.Cat;
-import com.example.tgbotanimalshelter.exception.CatNotFoundException;
-import com.example.tgbotanimalshelter.repository.CatRepository;
+import com.example.tgbotanimalshelter.entity.Dog;
+import com.example.tgbotanimalshelter.exception.DogNotFoundException;
+import com.example.tgbotanimalshelter.repository.DogRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -22,14 +22,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class CatControllerTest extends BaseControllerTest {
-    private static final String ROOT = "/cat";
+public class DogControllerTest extends BaseControllerTest {
+    private static final String ROOT = "/dog";
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private CatRepository catRepository;
+    private DogRepository dogRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -37,93 +37,93 @@ public class CatControllerTest extends BaseControllerTest {
 
     @AfterEach
     void tearDown() {
-        catRepository.deleteAll();
+        dogRepository.deleteAll();
     }
 
     @Test
     void findAllTest() throws Exception {
-        List<Cat> cats = catRepository.saveAll(buildCats());
+        List<Dog> dogs = dogRepository.saveAll(buildDogs());
 
         mockMvc.perform(get(ROOT)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(result -> {
-                    List<Cat> actual = objectMapper.readValue(result.getResponse().getContentAsString(),
+                    List<Dog> actual = objectMapper.readValue(result.getResponse().getContentAsString(),
                             new TypeReference<>() {
                             });
 
-                    assertThat(actual).hasSize(cats.size());
-                    assertThat(actual).isEqualTo(cats);
+                    assertThat(actual).hasSize(dogs.size());
+                    assertThat(actual).isEqualTo(dogs);
                 });
     }
 
     @Test
     void findByIdTest() throws Exception {
-        Cat cat = catRepository.save(buildCat());
+        Dog dog = dogRepository.save(buildDog());
 
-        mockMvc.perform(get(ROOT + "/{id}", cat.getId())
+        mockMvc.perform(get(ROOT + "/{id}", dog.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(result -> {
-                    Cat actual = objectMapper.readValue(result.getResponse().getContentAsString(), Cat.class);
+                    Dog actual = objectMapper.readValue(result.getResponse().getContentAsString(), Dog.class);
 
-                    assertThat(actual).isEqualTo(cat);
+                    assertThat(actual).isEqualTo(dog);
                 });
     }
 
     @Test
-    void findByIdWhenCatNotFoundTest() throws Exception {
+    void findByIdWhenDogNotFoundTest() throws Exception {
         mockMvc.perform(get(ROOT + "/{id}", 1L))
                 .andExpect(status().isNotFound())
                 .andExpect(result ->
-                        assertThat(result.getResolvedException().getClass()).isEqualTo(CatNotFoundException.class));
+                        assertThat(result.getResolvedException().getClass()).isEqualTo(DogNotFoundException.class));
     }
 
     @Test
     void createTest() throws Exception {
-        Cat cat = buildCat();
+        Dog dog = buildDog();
 
         mockMvc.perform(post(ROOT)
-                        .content(objectMapper.writeValueAsString(cat))
+                        .content(objectMapper.writeValueAsString(dog))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(result -> {
-                    Cat actual = objectMapper.readValue(result.getResponse().getContentAsString(), Cat.class);
+                    Dog actual = objectMapper.readValue(result.getResponse().getContentAsString(), Dog.class);
 
                     assertThat(actual)
                             .usingRecursiveComparison()
                             .ignoringFields("id")
-                            .isEqualTo(cat);
-                    assertThat(catRepository.existsById(actual.getId())).isTrue();
+                            .isEqualTo(dog);
+                    assertThat(dogRepository.existsById(actual.getId())).isTrue();
                 });
     }
 
     @Test
     void updateTest() throws Exception {
-        Cat cat = catRepository.save(buildCat());
+        Dog dog = dogRepository.save(buildDog());
 
-        mockMvc.perform(put(ROOT + "/{id}", cat.getId())
-                        .content(objectMapper.writeValueAsString(cat))
+        mockMvc.perform(put(ROOT + "/{id}", dog.getId())
+                        .content(objectMapper.writeValueAsString(dog))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(result -> {
-                    Cat actual = objectMapper.readValue(result.getResponse().getContentAsString(), Cat.class);
+                    Dog actual = objectMapper.readValue(result.getResponse().getContentAsString(), Dog.class);
 
-                    assertThat(actual).isEqualTo(cat);
+                    assertThat(actual).isEqualTo(dog);
                 });
     }
 
 
     @Test
-    void updateWhenCatNotFoundTest() throws Exception {
-        Cat cat = buildCat();
+    void updateWhenDogNotFoundTest() throws Exception {
+        Dog dog = buildDog();
 
-        mockMvc.perform(put(ROOT + "/{id}", cat.getId())
-                        .content(objectMapper.writeValueAsString(cat))
+        mockMvc.perform(put(ROOT + "/{id}", dog.getId())
+                        .content(objectMapper.writeValueAsString(dog))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
@@ -131,34 +131,34 @@ public class CatControllerTest extends BaseControllerTest {
 
     @Test
     void deleteTest() throws Exception {
-        Cat cat = catRepository.save(buildCat());
+        Dog dog = dogRepository.save(buildDog());
 
-        mockMvc.perform(MockMvcRequestBuilders.delete(ROOT + "/" + cat.getId()))
+        mockMvc.perform(MockMvcRequestBuilders.delete(ROOT + "/" + dog.getId()))
                 .andExpect(status().isNoContent());
 
-        assertThat(catRepository.existsById(cat.getId())).isFalse();
+        assertThat(dogRepository.existsById(dog.getId())).isFalse();
     }
 
     @Test
-    void deleteTestWhenCatNotFound() throws Exception {
+    void deleteTestWhenDogNotFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(ROOT + "/" + 1L))
                 .andExpect(status().isNotFound());
     }
 
-    public static Cat buildCat() {
-        return new Cat(0L, "cat", LocalDate.now(), "desc", true);
+    public static Dog buildDog() {
+        return new Dog(0L, "dog", LocalDate.now(), "desc", true);
     }
 
-    private List<Cat> buildCats(int count) {
+    private List<Dog> buildDogs(int count) {
         return LongStream.range(1, count)
-                .mapToObj(i -> new Cat(0L,
-                        "cat" + i, LocalDate.now().minusDays(i),
+                .mapToObj(i -> new Dog(0L,
+                        "dog" + i, LocalDate.now().minusDays(i),
                         "desc" + i,
                         ThreadLocalRandom.current().nextBoolean()))
                 .collect(Collectors.toList());
     }
 
-    private List<Cat> buildCats() {
-        return buildCats(10);
+    private List<Dog> buildDogs() {
+        return buildDogs(10);
     }
 }

@@ -23,5 +23,4 @@ public class TestContainersConfig {
         dataSource.setPassword(postgreSQLContainer.getPassword());
         return dataSource;
     }
-
 }
