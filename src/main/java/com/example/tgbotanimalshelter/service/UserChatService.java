@@ -71,6 +71,13 @@ public class UserChatService implements CrudService<Long, UserChat>{
 
     }
 
+    public void inviteWaitReportStatus(long chatId) {
+        UserChat userChat = findById(chatId).get();
+        userChat.setStatusUserChat(WAIT_FOR_DIET);
+        userChatRepository.save(userChat);
+
+    }
+
     @Transactional
     public UserChat update(Long id, UserChat userChat) {
         if (userChatRepository.existsById(id)) {
