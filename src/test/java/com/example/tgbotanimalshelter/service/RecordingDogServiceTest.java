@@ -55,7 +55,7 @@ class RecordingDogServiceTest {
     void recordingNumberPhoneTest() {
         UserChat userChat = userChatRepository.save(UserChatControllerTest.buildUserChat());
 
-        recordingDogService.recordingNumberPhoneDog(userChat.getId(), CORRECT_NUMBER);
+        recordingDogService.recordingNumberPhone(userChat.getId(), CORRECT_NUMBER);
 
         Optional<DogParent> dogParentActual = dogParentRepository.findById(userChat.getId());
         Optional<UserChat> userChatActual = userChatRepository.findById(userChat.getId());
@@ -72,7 +72,7 @@ class RecordingDogServiceTest {
     void recordingWhenIncorrectNumberPhoneTest() {
         final long userChatId = 1L;
 
-        recordingDogService.recordingNumberPhoneDog(userChatId, INCORRECT_NUMBER);
+        recordingDogService.recordingNumberPhone(userChatId, INCORRECT_NUMBER);
 
         Mockito.verify(sendMassageService).sendMassage(userChatId, "неправильно набран номер");
     }
@@ -81,7 +81,7 @@ class RecordingDogServiceTest {
     void recordingNameDogTest() {
         DogParent dogParent = dogParentRepository.save(buildDogParent());
 
-        recordingDogService.recordingNameDog(dogParent.getChatId(), CORRECT_NAME);
+        recordingDogService.recordingName(dogParent.getChatId(), CORRECT_NAME);
 
         Optional<DogParent> dogParentActual = dogParentRepository.findById(dogParent.getChatId());
         Optional<UserChat> userChatActual = userChatRepository.findById(dogParent.getChatId());
@@ -97,7 +97,7 @@ class RecordingDogServiceTest {
     @Test
     void recordingWhenIncorrectNameDogTest() {
         final long userChatId = 1L;
-        recordingDogService.recordingNameDog(userChatId, INCORRECT_NAME);
+        recordingDogService.recordingName(userChatId, INCORRECT_NAME);
 
         Mockito.verify(sendMassageService).sendMassage(userChatId, "введите корректное имя");
     }

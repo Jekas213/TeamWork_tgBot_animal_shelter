@@ -42,7 +42,7 @@ public class RecordingDogService {
     }
 
     public void recordingName(long chatId, String text) {
-        if (text.matches("[а-яА-Я]")) {
+        if (text.matches("[а-яА-Я]+")) {
             DogParent dogParent = dogParentService.findById(chatId);
             dogParent.setFullName(text);
             dogParentService.update(chatId, dogParent);

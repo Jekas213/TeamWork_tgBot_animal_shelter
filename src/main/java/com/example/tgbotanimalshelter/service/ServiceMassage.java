@@ -4,7 +4,7 @@ package com.example.tgbotanimalshelter.service;
 public enum ServiceMassage {
     INPUT_NAME("введите имя"),
     INCORRECT_NUMBER("неправильно набран номер"),
-    RETURN_START("/start - Вкрнуться в главное меню"),
+    RETURN_START("/start - Вернуться в главное меню"),
     INCORRECT_NAME("введите корректное имя"),
     WELL_BEING("Опишите общее самочувствие и привыкание к новому месту"),
     BEHAVIORS("Опишите изменение в поведении: отказ от старых привычек, приобретение новых"),

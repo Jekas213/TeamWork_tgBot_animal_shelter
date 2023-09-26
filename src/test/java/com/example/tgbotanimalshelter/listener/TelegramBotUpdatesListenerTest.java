@@ -69,11 +69,11 @@ class TelegramBotUpdatesListenerTest {
 
         when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_NAME_DOG);
         out.process(List.of(update));
-        verify(recordingDogService).recordingNameDog(CHAT_ID, TEXT);
+        verify(recordingDogService).recordingName(CHAT_ID, TEXT);
 
         when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_NUMBER_DOG);
         out.process(List.of(update));
-        verify(recordingDogService).recordingNumberPhoneDog(CHAT_ID, TEXT);
+        verify(recordingDogService).recordingNumberPhone(CHAT_ID, TEXT);
 
         when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_NAME_CAT);
         out.process(List.of(update));
