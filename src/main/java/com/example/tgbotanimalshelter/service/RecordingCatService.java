@@ -5,7 +5,6 @@ import com.example.tgbotanimalshelter.entity.UserChat;
 import com.example.tgbotanimalshelter.repository.CatParentRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.regex.Pattern;
 
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.*;
 import static com.example.tgbotanimalshelter.service.ServiceMassage.*;
@@ -31,7 +30,7 @@ public class RecordingCatService {
             catParent.setChatId(chatId);
             catParent.setPhoneNumber(text);
             catParentRepository.save(catParent);
-            UserChat userChat = userChatService.findById(chatId).get();
+            UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(WAIT_FOR_NAME_CAT);
             userChatService.update(chatId, userChat);
             sendMassageService.sendMassage(chatId, INPUT_NAME.getCommandName());
@@ -46,7 +45,7 @@ public class RecordingCatService {
             CatParent catParent = catParentService.findById(chatId);
             catParent.setFullName(text);
             catParentService.update(chatId, catParent);
-            UserChat userChat = userChatService.findById(chatId).get();
+            UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(BASIC_STATUS);
             userChatService.update(chatId, userChat);
             sendMassageService.sendMassage(chatId, RETURN_START.getCommandName());

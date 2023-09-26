@@ -38,7 +38,7 @@ public class RecordingReportService {
         report.setDiet(text);
         reportService.editReport(report);
         id = report.getId();
-        UserChat userChat = userChatService.findById(chatId).get();
+        UserChat userChat = userChatService.findById(chatId);
         userChat.setStatusUserChat(WAIT_FOR_WELL_BEING);
         userChatService.update(chatId, userChat);
         sendMassageService.sendMassage(chatId, WELL_BEING.getCommandName());
@@ -48,7 +48,7 @@ public class RecordingReportService {
         Report report = reportService.findById(id);
         report.setWellBeing(text);
         reportService.update(id, report);
-        UserChat userChat = userChatService.findById(chatId).get();
+        UserChat userChat = userChatService.findById(chatId);
         userChat.setStatusUserChat(WAIT_FOR_BEHAVIORS);
         userChatService.update(chatId, userChat);
         sendMassageService.sendMassage(chatId, BEHAVIORS.getCommandName());
@@ -58,7 +58,7 @@ public class RecordingReportService {
         Report report = reportService.findById(id);
         report.setBehaviors(text);
         reportService.update(id, report);
-        UserChat userChat = userChatService.findById(chatId).get();
+        UserChat userChat = userChatService.findById(chatId);
         userChat.setStatusUserChat(WAIT_FOR_PICTURE);
         userChatService.update(chatId, userChat);
         sendMassageService.sendMassage(chatId, PICTURE.getCommandName());
@@ -74,7 +74,7 @@ public class RecordingReportService {
                     byte[] data = telegramBot.getFileContent(getFileResponse.file());
                     report.setPicture(data);
                     reportService.update(id, report);
-                    UserChat userChat = userChatService.findById(chatId).get();
+                    UserChat userChat = userChatService.findById(chatId);
                     userChat.setStatusUserChat(BASIC_STATUS);
                     userChatService.update(chatId, userChat);
                     sendMassageService.sendMassage(chatId, THANKS_REPORT.getCommandName());

@@ -5,8 +5,6 @@ import com.example.tgbotanimalshelter.entity.UserChat;
 import com.example.tgbotanimalshelter.repository.DogParentRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.*;
 import static com.example.tgbotanimalshelter.service.ServiceMassage.*;
@@ -33,7 +31,7 @@ public class RecordingDogService {
             dogParent.setChatId(chatId);
             dogParent.setPhoneNumber(text);
             dogParentRepository.save(dogParent);
-            UserChat userChat = userChatService.findById(chatId).get();
+            UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(WAIT_FOR_NAME_DOG);
             userChatService.update(chatId, userChat);
             sendMassageService.sendMassage(chatId, INPUT_NAME.getCommandName());
@@ -48,7 +46,7 @@ public class RecordingDogService {
             DogParent dogParent = dogParentService.findById(chatId);
             dogParent.setFullName(text);
             dogParentService.update(chatId, dogParent);
-            UserChat userChat = userChatService.findById(chatId).get();
+            UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(BASIC_STATUS);
             userChatService.update(chatId, userChat);
             sendMassageService.sendMassage(chatId, RETURN_START.getCommandName());
