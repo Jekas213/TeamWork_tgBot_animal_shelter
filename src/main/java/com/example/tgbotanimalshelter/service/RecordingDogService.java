@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.*;
+import static com.example.tgbotanimalshelter.service.ServiceMassage.*;
 
 @Service
 public class RecordingDogService {
@@ -17,8 +18,6 @@ public class RecordingDogService {
     private final DogParentService dogParentService;
     private final UserChatService userChatService;
     private final SendMassageService sendMassageService;
-    private static final Pattern PATTERN_NUMBER = Pattern.compile("(\\+7|8)?(9)\\d{9}");
-    private static final Pattern PATTERN_NAME = Pattern.compile("[а-яА-Я]");
 
     public RecordingDogService(DogParentRepository dogParentRepository, DogParentService dogParentService, UserChatService userChatService, SendMassageService sendMassageService) {
         this.dogParentRepository = dogParentRepository;
@@ -29,8 +28,7 @@ public class RecordingDogService {
 
 
     public void recordingNumberPhone(long chatId, String text) {
-        Matcher matcher = PATTERN_NUMBER.matcher(text);
-        if (matcher.matches()) {
+        if (text.matches("(\\+7|8)?(9)\\d{9}")) {
             DogParent dogParent = new DogParent();
             dogParent.setChatId(chatId);
             dogParent.setPhoneNumber(text);
@@ -38,24 +36,24 @@ public class RecordingDogService {
             UserChat userChat = userChatService.findById(chatId).get();
             userChat.setStatusUserChat(WAIT_FOR_NAME_DOG);
             userChatService.update(chatId, userChat);
-            sendMassageService.sendMassage(chatId, "введите имя");
+            sendMassageService.sendMassage(chatId, INPUT_NAME.getCommandName());
         } else {
-            sendMassageService.sendMassage(chatId, "неправильно набран номер");
+            sendMassageService.sendMassage(chatId, INCORRECT_NUMBER.getCommandName());
 
         }
     }
 
     public void recordingName(long chatId, String text) {
-        if (PATTERN_NAME.matcher(text).find()) {
+        if (text.matches("[а-яА-Я]")) {
             DogParent dogParent = dogParentService.findById(chatId);
             dogParent.setFullName(text);
             dogParentService.update(chatId, dogParent);
             UserChat userChat = userChatService.findById(chatId).get();
             userChat.setStatusUserChat(BASIC_STATUS);
             userChatService.update(chatId, userChat);
-            sendMassageService.sendMassage(chatId, "/start - Вкрнуться в главное меню");
+            sendMassageService.sendMassage(chatId, RETURN_START.getCommandName());
         } else {
-            sendMassageService.sendMassage(chatId, "введите корректное имя");
+            sendMassageService.sendMassage(chatId, INCORRECT_NAME.getCommandName());
         }
 
     }

@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: liquibase/ddl/base-schema-changelog.xml
+  - include:
+      file: liquibase/ddl/new-entity-report.xml

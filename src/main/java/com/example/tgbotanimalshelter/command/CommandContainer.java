@@ -27,8 +27,8 @@ public class CommandContainer {
         commandMap.put(INFO_CATS.getCommandName(), new InfoCommand(sendMassageService, INFO_CAT_SHELTERS.getCommandName()));
         commandMap.put(TAKE_DOG_COM.getCommandName(), new InfoCommand(sendMassageService, TAKE_DOGS.getCommandName()));
         commandMap.put(TAKE_CAT_COM.getCommandName(), new InfoCommand(sendMassageService, TAKE_CATS.getCommandName()));
-        commandMap.put(DOG_REPORT.getCommandName(), new InfoCommand(sendMassageService, REPORT_DOG.getCommandName()));
-        commandMap.put(CAT_REPORT.getCommandName(), new InfoCommand(sendMassageService, REPORT_CAT.getCommandName()));
+        commandMap.put(DOG_REPORT.getCommandName(), new RecordingReportCommand(sendMassageService, REPORT_DOG.getCommandName(), userChatService));
+        commandMap.put(CAT_REPORT.getCommandName(), new RecordingReportCommand(sendMassageService, REPORT_CAT.getCommandName(), userChatService));
         commandMap.put(CALL_VOLUNTEER.getCommandName(), new InfoCommand(sendMassageService, EnumOtherInfo.VOLUNTEER.getCommandName()));
         commandMap.put(DESCRIPTION_CAT.getCommandName(), new InfoCommand(sendMassageService, DESCRIPTION_CAT_SHELTERS.getCommandName()));
         commandMap.put(ADDRESS_CAT.getCommandName(), new InfoCommand(sendMassageService, ADDRESS_CAT_SHELTERS.getCommandName()));

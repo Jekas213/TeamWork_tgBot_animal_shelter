@@ -11,7 +11,7 @@ import static com.example.tgbotanimalshelter.command.CommandName.*;
  */
 public enum EnumCatsInfo {
 
-    REPORT_CAT("Отчёт о питомце"),
+    REPORT_CAT("Опишите рацион питомца"),
     INFO_CAT_SHELTERS(String.format("""
                     Выберите нужный пункт:\s
                     %s Описание приюта для кошек\s
