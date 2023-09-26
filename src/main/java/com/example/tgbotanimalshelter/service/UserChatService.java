@@ -14,7 +14,7 @@ import java.util.Optional;
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.*;
 
 @Service
-public class UserChatService implements CrudService<Long, UserChat>{
+public class UserChatService {
 
     private final UserChatRepository userChatRepository;
 
@@ -41,16 +41,11 @@ public class UserChatService implements CrudService<Long, UserChat>{
         return userChatRepository.findAll();
     }
 
-    @Override
+
     public UserChat findById(Long id) {
         return userChatRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
-    @Transactional
-    @Override
-    public UserChat create(UserChat userChat) {
-        return userChatRepository.save(userChat);
-    }
 
     public StatusUserChat getUserChatStatus(long id) {
         return Optional.ofNullable(userChatRepository.findStatusUserChatById(id)).orElseThrow(UserNotFoundException::new);
@@ -63,6 +58,7 @@ public class UserChatService implements CrudService<Long, UserChat>{
         userChatRepository.save(userChat);
 
     }
+
     @Transactional
     public void inviteWaitPhoneStatusCat(long chatId) {
         UserChat userChat = findById(chatId);
@@ -89,7 +85,6 @@ public class UserChatService implements CrudService<Long, UserChat>{
     }
 
     @Transactional
-    @Override
     public void delete(Long id) {
         if (userChatRepository.existsById(id)) {
             userChatRepository.deleteById(id);

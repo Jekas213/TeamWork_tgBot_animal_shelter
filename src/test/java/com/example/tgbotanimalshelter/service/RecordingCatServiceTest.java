@@ -74,7 +74,7 @@ class RecordingCatServiceTest {
     }
 
     @Test
-    void recordingNameDogTest() {
+    void recordingNameCatTest() {
         CatParent catParent = catParentRepository.save(buildCatParent());
 
         recordingCatService.recordingNameCat(catParent.getChatId(), CORRECT_NAME);
@@ -91,7 +91,7 @@ class RecordingCatServiceTest {
     }
 
     @Test
-    void recordingWhenIncorrectNameDogTest() {
+    void recordingWhenIncorrectNameCatTest() {
         final long userChatId = 1L;
         recordingCatService.recordingNameCat(userChatId, INCORRECT_NAME);
 

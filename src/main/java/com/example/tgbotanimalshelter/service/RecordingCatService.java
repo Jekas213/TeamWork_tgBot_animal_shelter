@@ -41,7 +41,7 @@ public class RecordingCatService {
     }
 
     public void recordingNameCat(long chatId, String text) {
-        if (text.matches("[а-яА-Я]")) {
+        if (text.matches("[а-яА-Я]+")) {
             CatParent catParent = catParentService.findById(chatId);
             catParent.setFullName(text);
             catParentService.update(chatId, catParent);
