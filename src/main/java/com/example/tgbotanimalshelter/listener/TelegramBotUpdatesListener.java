@@ -54,7 +54,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 String massage = update.message().text();
                 long chatId = update.message().chat().id();
                 String name = update.message().from().firstName();
-                userChatService.editUserChat(chatId, name);
+                String userName = update.message().from().username();
+                userChatService.editUserChat(chatId, name, userName);
                 StatusUserChat status = userChatService.getUserChatStatus(chatId);
                 if (massage != null) {
                     switch (status) {

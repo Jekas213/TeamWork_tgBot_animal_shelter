@@ -30,8 +30,8 @@ public class UserChatService {
      * @param userName
      */
     @Transactional
-    public void editUserChat(long chatId, String userName) {
-        UserChat userChat = new UserChat(chatId, userName, BASIC_STATUS);
+    public void editUserChat(long chatId, String name, String userName) {
+        UserChat userChat = new UserChat(chatId, name, userName, BASIC_STATUS);
         if (userChatRepository.findById(chatId).isEmpty()) {
             userChatRepository.save(userChat);
         }
