@@ -10,5 +10,6 @@ public enum StatusUserChat {
     WAIT_FOR_DIET,
     WAIT_FOR_WELL_BEING,
     WAIT_FOR_BEHAVIORS,
-    WAIT_FOR_PICTURE
+    WAIT_FOR_PICTURE,
+    OPEN_CHAT
 }

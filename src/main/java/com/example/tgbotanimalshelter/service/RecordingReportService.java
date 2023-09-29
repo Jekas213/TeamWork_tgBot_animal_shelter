@@ -12,21 +12,21 @@ import java.io.IOException;
 import java.util.Date;
 
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.*;
-import static com.example.tgbotanimalshelter.service.ServiceMassage.*;
+import static com.example.tgbotanimalshelter.service.ServiceMessage.*;
 
 @Service
 public class RecordingReportService {
 
     private final ReportService reportService;
     private final UserChatService userChatService;
-    private final SendMassageService sendMassageService;
+    private final SendMessageService sendMessageService;
     private final TelegramBot telegramBot;
     private static long id = 0;
 
-    public RecordingReportService(ReportService reportService, UserChatService userChatService, SendMassageService sendMassageService, TelegramBot telegramBot) {
+    public RecordingReportService(ReportService reportService, UserChatService userChatService, SendMessageService sendMessageService, TelegramBot telegramBot) {
         this.reportService = reportService;
         this.userChatService = userChatService;
-        this.sendMassageService = sendMassageService;
+        this.sendMessageService = sendMessageService;
         this.telegramBot = telegramBot;
     }
 
@@ -41,7 +41,7 @@ public class RecordingReportService {
         UserChat userChat = userChatService.findById(chatId);
         userChat.setStatusUserChat(WAIT_FOR_WELL_BEING);
         userChatService.update(chatId, userChat);
-        sendMassageService.sendMassage(chatId, WELL_BEING.getCommandName());
+        sendMessageService.sendMassage(chatId, WELL_BEING.getCommandName());
     }
 
     public void recordingWellBeing(long chatId, String text) {
@@ -51,7 +51,7 @@ public class RecordingReportService {
         UserChat userChat = userChatService.findById(chatId);
         userChat.setStatusUserChat(WAIT_FOR_BEHAVIORS);
         userChatService.update(chatId, userChat);
-        sendMassageService.sendMassage(chatId, BEHAVIORS.getCommandName());
+        sendMessageService.sendMassage(chatId, BEHAVIORS.getCommandName());
     }
 
     public void recordingBehaviors(long chatId, String text) {
@@ -61,7 +61,7 @@ public class RecordingReportService {
         UserChat userChat = userChatService.findById(chatId);
         userChat.setStatusUserChat(WAIT_FOR_PICTURE);
         userChatService.update(chatId, userChat);
-        sendMassageService.sendMassage(chatId, PICTURE.getCommandName());
+        sendMessageService.sendMassage(chatId, PICTURE.getCommandName());
     }
 
     public void recordingPhoto(long chatId, PhotoSize[] photoSizes) {
@@ -77,7 +77,7 @@ public class RecordingReportService {
                     UserChat userChat = userChatService.findById(chatId);
                     userChat.setStatusUserChat(BASIC_STATUS);
                     userChatService.update(chatId, userChat);
-                    sendMassageService.sendMassage(chatId, THANKS_REPORT.getCommandName());
+                    sendMessageService.sendMassage(chatId, THANKS_REPORT.getCommandName());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

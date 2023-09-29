@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.*;
-import static com.example.tgbotanimalshelter.service.ServiceMassage.*;
+import static com.example.tgbotanimalshelter.service.ServiceMessage.*;
 
 @Service
 public class RecordingDogService {
@@ -15,13 +15,13 @@ public class RecordingDogService {
     private final DogParentRepository dogParentRepository;
     private final DogParentService dogParentService;
     private final UserChatService userChatService;
-    private final SendMassageService sendMassageService;
+    private final SendMessageService sendMessageService;
 
-    public RecordingDogService(DogParentRepository dogParentRepository, DogParentService dogParentService, UserChatService userChatService, SendMassageService sendMassageService) {
+    public RecordingDogService(DogParentRepository dogParentRepository, DogParentService dogParentService, UserChatService userChatService, SendMessageService sendMessageService) {
         this.dogParentRepository = dogParentRepository;
         this.dogParentService = dogParentService;
         this.userChatService = userChatService;
-        this.sendMassageService = sendMassageService;
+        this.sendMessageService = sendMessageService;
     }
 
 
@@ -34,24 +34,27 @@ public class RecordingDogService {
             UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(WAIT_FOR_NAME_DOG);
             userChatService.update(chatId, userChat);
-            sendMassageService.sendMassage(chatId, INPUT_NAME.getCommandName());
+            sendMessageService.sendMassage(chatId, INPUT_NAME.getCommandName());
         } else {
-            sendMassageService.sendMassage(chatId, INCORRECT_NUMBER.getCommandName());
+            sendMessageService.sendMassage(chatId, INCORRECT_NUMBER.getCommandName());
 
         }
     }
 
     public void recordingName(long chatId, String text) {
         if (text.matches("[а-яА-Я]+")) {
+            long chatIdVolunteer = 1860428928;
             DogParent dogParent = dogParentService.findById(chatId);
             dogParent.setFullName(text);
             dogParentService.update(chatId, dogParent);
             UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(BASIC_STATUS);
             userChatService.update(chatId, userChat);
-            sendMassageService.sendMassage(chatId, RETURN_START.getCommandName());
+            sendMessageService.sendMassage(chatId, RETURN_START.getCommandName());
+            sendMessageService.sendMassage(chatIdVolunteer, CONTACT_INFO.getCommandName() +
+                    "\n" + "Чат id: " + chatId);
         } else {
-            sendMassageService.sendMassage(chatId, INCORRECT_NAME.getCommandName());
+            sendMessageService.sendMassage(chatId, INCORRECT_NAME.getCommandName());
         }
 
     }

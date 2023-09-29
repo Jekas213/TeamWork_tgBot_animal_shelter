@@ -67,9 +67,26 @@ public class UserChatService {
 
     }
 
+    @Transactional
     public void inviteWaitReportStatus(long chatId) {
         UserChat userChat = findById(chatId);
         userChat.setStatusUserChat(WAIT_FOR_DIET);
+        userChatRepository.save(userChat);
+
+    }
+
+    @Transactional
+    public void inviteOpenChatStatus(long chatId) {
+        UserChat userChat = findById(chatId);
+        userChat.setStatusUserChat(OPEN_CHAT);
+        userChatRepository.save(userChat);
+
+    }
+
+    @Transactional
+    public void inviteBasicStatus(long chatId) {
+        UserChat userChat = findById(chatId);
+        userChat.setStatusUserChat(BASIC_STATUS);
         userChatRepository.save(userChat);
 
     }

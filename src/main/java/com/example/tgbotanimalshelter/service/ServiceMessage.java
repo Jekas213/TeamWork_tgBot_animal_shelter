@@ -1,7 +1,7 @@
 package com.example.tgbotanimalshelter.service;
 
 
-public enum ServiceMassage {
+public enum ServiceMessage {
     INPUT_NAME("введите имя"),
     INCORRECT_NUMBER("неправильно набран номер"),
     RETURN_START("/start - Вернуться в главное меню"),
@@ -10,11 +10,16 @@ public enum ServiceMassage {
     BEHAVIORS("Опишите изменение в поведении: отказ от старых привычек, приобретение новых"),
     PICTURE("Отправтье фото вашего питомца"),
     THANKS_REPORT("спасибо за отчёт"),
-    SEND_PHOTO("вы ничего не отправили, пришлите фото");
+    SEND_PHOTO("вы ничего не отправили, пришлите фото"),
+    BAD_REPORT("Дорогой усыновитель, мы заметили, что ты заполняешь отчет не так подробно, как необходимо. " +
+            "Пожалуйста, подойди ответственнее к этому занятию. " +
+            "В противном случае волонтеры приюта будут обязаны самолично проверять условия содержания животного"),
+    INFO_USER("с вами хочет связаться пользоватьель"),
+    CONTACT_INFO("пользователь оставил контактные данные для связи");
 
     private final String commandName;
 
-    ServiceMassage(String enumTest) {
+    ServiceMessage(String enumTest) {
         this.commandName = enumTest;
     }
 
