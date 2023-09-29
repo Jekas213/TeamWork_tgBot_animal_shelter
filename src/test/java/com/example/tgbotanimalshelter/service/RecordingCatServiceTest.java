@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RecordingCatServiceTest {
 
     @MockBean
-    private SendMassageService sendMassageService;
+    private SendMessageService sendMessageService;
 
     @Autowired
     private RecordingCatService recordingCatService;
@@ -61,7 +61,7 @@ class RecordingCatServiceTest {
         assertThat(catParentActual.get().getPhoneNumber()).isEqualTo(CORRECT_NUMBER);
         assertThat(userChatActual.get().getStatusUserChat()).isEqualTo(WAIT_FOR_NAME_CAT);
 
-        Mockito.verify(sendMassageService).sendMassage(userChat.getId(), "введите имя");
+        Mockito.verify(sendMessageService).sendMassage(userChat.getId(), "введите имя");
     }
 
     @Test
@@ -70,7 +70,7 @@ class RecordingCatServiceTest {
 
         recordingCatService.recordingNumberPhoneCat(userChatId, INCORRECT_NUMBER);
 
-        Mockito.verify(sendMassageService).sendMassage(userChatId, "неправильно набран номер");
+        Mockito.verify(sendMessageService).sendMassage(userChatId, "неправильно набран номер");
     }
 
     @Test
@@ -87,7 +87,7 @@ class RecordingCatServiceTest {
         assertThat(catParentActual.get().getFullName()).isEqualTo(CORRECT_NAME);
         assertThat(userChatActual.get().getStatusUserChat()).isEqualTo(BASIC_STATUS);
 
-        Mockito.verify(sendMassageService).sendMassage(catParent.getChatId(), "/start - Вернуться в главное меню");
+        Mockito.verify(sendMessageService).sendMassage(catParent.getChatId(), "/start - Вернуться в главное меню");
     }
 
     @Test
@@ -95,7 +95,7 @@ class RecordingCatServiceTest {
         final long userChatId = 1L;
         recordingCatService.recordingNameCat(userChatId, INCORRECT_NAME);
 
-        Mockito.verify(sendMassageService).sendMassage(userChatId, "введите корректное имя");
+        Mockito.verify(sendMessageService).sendMassage(userChatId, "введите корректное имя");
     }
 
 

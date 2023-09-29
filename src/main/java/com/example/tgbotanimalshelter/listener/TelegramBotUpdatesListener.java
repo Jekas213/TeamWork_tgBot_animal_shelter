@@ -23,6 +23,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final RecordingDogService recordingDogService;
     private final RecordingCatService recordingCatService;
     private final RecordingReportService recordingReportService;
+    private final VolunteerChatService volunteerChatService;
     /**
      * The character that the command should start with
      */
@@ -32,11 +33,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                       UserChatService userChatService,
                                       RecordingDogService recordingDogService,
                                       RecordingCatService recordingCatService,
-                                      RecordingReportService recordingReportService) {
+                                      RecordingReportService recordingReportService, VolunteerChatService volunteerChatService) {
         this.recordingDogService = recordingDogService;
         this.recordingCatService = recordingCatService;
         this.recordingReportService = recordingReportService;
-        this.commandContainer = new CommandContainer(new SendMassageService(telegramBot), userChatService);
+        this.volunteerChatService = volunteerChatService;
+        this.commandContainer = new CommandContainer(new SendMessageService(telegramBot), userChatService);
         this.telegramBot = telegramBot;
         this.userChatService = userChatService;
     }
@@ -51,22 +53,23 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         updates.forEach(update -> {
             if (update.message() != null) {
                 PhotoSize[] photoSizes = update.message().photo();
-                String massage = update.message().text();
+                String message = update.message().text();
                 long chatId = update.message().chat().id();
                 String name = update.message().from().firstName();
                 String userName = update.message().from().username();
                 userChatService.editUserChat(chatId, name, userName);
                 StatusUserChat status = userChatService.getUserChatStatus(chatId);
-                if (massage != null) {
+                if (message != null) {
                     switch (status) {
-                        case BASIC_STATUS -> processText(chatId, massage);
-                        case WAIT_FOR_NAME_DOG -> recordingDogService.recordingName(chatId, massage);
-                        case WAIT_FOR_NUMBER_DOG -> recordingDogService.recordingNumberPhone(chatId, massage);
-                        case WAIT_FOR_NUMBER_CAT -> recordingCatService.recordingNumberPhoneCat(chatId, massage);
-                        case WAIT_FOR_NAME_CAT -> recordingCatService.recordingNameCat(chatId, massage);
-                        case WAIT_FOR_DIET -> recordingReportService.recordingDiet(chatId, massage);
-                        case WAIT_FOR_WELL_BEING -> recordingReportService.recordingWellBeing(chatId, massage);
-                        case WAIT_FOR_BEHAVIORS -> recordingReportService.recordingBehaviors(chatId, massage);
+                        case BASIC_STATUS -> processText(chatId, message);
+                        case OPEN_CHAT -> volunteerChatService.sendMessageByUser(message);
+                        case WAIT_FOR_NAME_DOG -> recordingDogService.recordingName(chatId, message);
+                        case WAIT_FOR_NUMBER_DOG -> recordingDogService.recordingNumberPhone(chatId, message);
+                        case WAIT_FOR_NUMBER_CAT -> recordingCatService.recordingNumberPhoneCat(chatId, message);
+                        case WAIT_FOR_NAME_CAT -> recordingCatService.recordingNameCat(chatId, message);
+                        case WAIT_FOR_DIET -> recordingReportService.recordingDiet(chatId, message);
+                        case WAIT_FOR_WELL_BEING -> recordingReportService.recordingWellBeing(chatId, message);
+                        case WAIT_FOR_BEHAVIORS -> recordingReportService.recordingBehaviors(chatId, message);
                     }
 
                 } else if (update.message().photo() != null) {
@@ -84,7 +87,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         if (massage.startsWith(PREF)) {
             commandContainer.command(massage).execute(chatId);
         } else {
-            new SendMassageService(telegramBot).sendMassage(chatId,
+            new SendMessageService(telegramBot).sendMassage(chatId,
                     "бот поддерживает команды начинающиеся с / \n"
                             + "чтобы начать общение с ботов введите " + CommandName.START.getCommandName()
                             + " или выбериет уже предложенные ранее Вам команды");

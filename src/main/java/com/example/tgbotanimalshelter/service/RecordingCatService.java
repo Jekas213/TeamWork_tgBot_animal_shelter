@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.*;
-import static com.example.tgbotanimalshelter.service.ServiceMassage.*;
+import static com.example.tgbotanimalshelter.service.ServiceMessage.*;
 
 @Service
 public class RecordingCatService {
@@ -15,13 +15,13 @@ public class RecordingCatService {
     private final CatParentRepository catParentRepository;
     private final CatParentService catParentService;
     private final UserChatService userChatService;
-    private final SendMassageService sendMassageService;
+    private final SendMessageService sendMessageService;
 
-    public RecordingCatService(CatParentRepository catParentRepository, CatParentService catParentService, UserChatService userChatService, SendMassageService sendMassageService) {
+    public RecordingCatService(CatParentRepository catParentRepository, CatParentService catParentService, UserChatService userChatService, SendMessageService sendMessageService) {
         this.catParentRepository = catParentRepository;
         this.catParentService = catParentService;
         this.userChatService = userChatService;
-        this.sendMassageService = sendMassageService;
+        this.sendMessageService = sendMessageService;
     }
 
     public void recordingNumberPhoneCat(long chatId, String text) {
@@ -33,24 +33,27 @@ public class RecordingCatService {
             UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(WAIT_FOR_NAME_CAT);
             userChatService.update(chatId, userChat);
-            sendMassageService.sendMassage(chatId, INPUT_NAME.getCommandName());
+            sendMessageService.sendMassage(chatId, INPUT_NAME.getCommandName());
         } else {
-            sendMassageService.sendMassage(chatId, INCORRECT_NUMBER.getCommandName());
+            sendMessageService.sendMassage(chatId, INCORRECT_NUMBER.getCommandName());
 
         }
     }
 
     public void recordingNameCat(long chatId, String text) {
         if (text.matches("[а-яА-Я]+")) {
+            long chatIdVolunteer = 1860428928;
             CatParent catParent = catParentService.findById(chatId);
             catParent.setFullName(text);
             catParentService.update(chatId, catParent);
             UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(BASIC_STATUS);
             userChatService.update(chatId, userChat);
-            sendMassageService.sendMassage(chatId, RETURN_START.getCommandName());
+            sendMessageService.sendMassage(chatId, RETURN_START.getCommandName());
+            sendMessageService.sendMassage(chatIdVolunteer, CONTACT_INFO.getCommandName() +
+                    "\n" + "Чат id: " + chatId);
         } else {
-            sendMassageService.sendMassage(chatId, INCORRECT_NAME.getCommandName());
+            sendMessageService.sendMassage(chatId, INCORRECT_NAME.getCommandName());
         }
 
     }

@@ -14,7 +14,8 @@ public class BaseExceptionHandler {
             DogNotFoundException.class,
             DogParentNotFoundException.class,
             CatParentNotFoundException.class,
-            UserNotFoundException.class
+            UserNotFoundException.class,
+            VolunteerNotFoundException.class
     })
     ResponseEntity<Void> handleException() {
         return ResponseEntity.notFound().build();

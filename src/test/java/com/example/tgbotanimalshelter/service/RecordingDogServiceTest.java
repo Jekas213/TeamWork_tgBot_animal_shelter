@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RecordingDogServiceTest {
 
     @MockBean
-    private SendMassageService sendMassageService;
+    private SendMessageService sendMessageService;
 
     @Autowired
     private RecordingDogService recordingDogService;
@@ -65,7 +65,7 @@ class RecordingDogServiceTest {
         assertThat(dogParentActual.get().getPhoneNumber()).isEqualTo(CORRECT_NUMBER);
         assertThat(userChatActual.get().getStatusUserChat()).isEqualTo(WAIT_FOR_NAME_DOG);
 
-        Mockito.verify(sendMassageService).sendMassage(userChat.getId(), "введите имя");
+        Mockito.verify(sendMessageService).sendMassage(userChat.getId(), "введите имя");
     }
 
     @Test
@@ -74,7 +74,7 @@ class RecordingDogServiceTest {
 
         recordingDogService.recordingNumberPhone(userChatId, INCORRECT_NUMBER);
 
-        Mockito.verify(sendMassageService).sendMassage(userChatId, "неправильно набран номер");
+        Mockito.verify(sendMessageService).sendMassage(userChatId, "неправильно набран номер");
     }
 
     @Test
@@ -91,7 +91,7 @@ class RecordingDogServiceTest {
         assertThat(dogParentActual.get().getFullName()).isEqualTo(CORRECT_NAME);
         assertThat(userChatActual.get().getStatusUserChat()).isEqualTo(BASIC_STATUS);
 
-        Mockito.verify(sendMassageService).sendMassage(dogParent.getChatId(), "/start - Вернуться в главное меню");
+        Mockito.verify(sendMessageService).sendMassage(dogParent.getChatId(), "/start - Вернуться в главное меню");
     }
 
     @Test
@@ -99,7 +99,7 @@ class RecordingDogServiceTest {
         final long userChatId = 1L;
         recordingDogService.recordingName(userChatId, INCORRECT_NAME);
 
-        Mockito.verify(sendMassageService).sendMassage(userChatId, "введите корректное имя");
+        Mockito.verify(sendMessageService).sendMassage(userChatId, "введите корректное имя");
     }
 
     private DogParent buildDogParent() {
