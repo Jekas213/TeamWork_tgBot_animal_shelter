@@ -1,6 +1,5 @@
 package com.example.tgbotanimalshelter.controller;
 
-import com.example.tgbotanimalshelter.entity.StatusUserChat;
 import com.example.tgbotanimalshelter.entity.UserChat;
 import com.example.tgbotanimalshelter.exception.UserNotFoundException;
 import com.example.tgbotanimalshelter.repository.UserChatRepository;
@@ -13,9 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
+import static com.example.tgbotanimalshelter.factory.UserChatTestFactory.buildUserChat;
+import static com.example.tgbotanimalshelter.factory.UserChatTestFactory.buildUserChats;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -78,19 +77,5 @@ public class UserChatControllerTest extends BaseControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(result ->
                         assertThat(result.getResolvedException().getClass()).isEqualTo(UserNotFoundException.class));
-    }
-
-    public static UserChat buildUserChat() {
-        return new UserChat(1L, "username", StatusUserChat.BASIC_STATUS);
-    }
-
-    private List<UserChat> buildUserChats(int count) {
-        return LongStream.range(1, count)
-                .mapToObj(i -> new UserChat(i, "username" + i, StatusUserChat.BASIC_STATUS))
-                .collect(Collectors.toList());
-    }
-
-    private List<UserChat> buildUserChats() {
-        return buildUserChats(10);
     }
 }

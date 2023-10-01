@@ -31,7 +31,7 @@ public class CatParentChangeStatus {
 
     public void inviteRefusedStatus(long chatId){
         CatParent catParent = catParentService.findById(chatId);
-        catParent.setStatus(Status.APPROVED);
+        catParent.setStatus(Status.REFUSED);
         catParentService.update(chatId,catParent);
         sendMessageService.sendMassage(chatId, "заявка отклонена");
     }

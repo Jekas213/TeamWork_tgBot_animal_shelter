@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
+@Builder
 public class DogParent {
     @Id
     @Column(name = "chat_id")

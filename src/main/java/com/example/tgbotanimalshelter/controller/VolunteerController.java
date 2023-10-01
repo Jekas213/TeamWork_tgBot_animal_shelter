@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/volunteer")
 public class VolunteerController extends CrudController<Long, Volunteer> {
-
-    private final VolunteerService volunteerService;
     private final SendMessageService sendMessageService;
     private final VolunteerChatService volunteerChatService;
     private final UserChatService userChatService;
@@ -17,7 +15,6 @@ public class VolunteerController extends CrudController<Long, Volunteer> {
 
     public VolunteerController(VolunteerService volunteerService, SendMessageService sendMessageService, VolunteerChatService volunteerChatService, UserChatService userChatService, DogParentChangeStatus dogParentChangeStatus, CatParentChangeStatus catParentChangeStatus) {
         super(volunteerService);
-        this.volunteerService = volunteerService;
         this.sendMessageService = sendMessageService;
         this.volunteerChatService = volunteerChatService;
         this.userChatService = userChatService;

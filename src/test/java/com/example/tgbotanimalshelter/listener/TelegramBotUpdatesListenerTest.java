@@ -1,14 +1,9 @@
 package com.example.tgbotanimalshelter.listener;
 
 import com.example.tgbotanimalshelter.entity.StatusUserChat;
-import com.example.tgbotanimalshelter.service.RecordingCatService;
-import com.example.tgbotanimalshelter.service.RecordingDogService;
-import com.example.tgbotanimalshelter.service.UserChatService;
+import com.example.tgbotanimalshelter.service.*;
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.model.Chat;
-import com.pengrad.telegrambot.model.Message;
-import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.User;
+import com.pengrad.telegrambot.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -45,12 +40,20 @@ class TelegramBotUpdatesListenerTest {
     @Mock
     private Message message;
 
+    @Mock
+    private VolunteerChatService volunteerChatService;
+
+    @Mock
+    private RecordingReportService recordingReportService;
+
     @InjectMocks
     private TelegramBotUpdatesListener out;
 
     private static final String TEXT = "/";
     private static final Long CHAT_ID = 1L;
-    private static final String FIRST_NAME = "username";
+    private static final String NAME = "name";
+
+    private static final String USERNAME = "username";
 
     @Test
     void initTest() {
@@ -65,7 +68,12 @@ class TelegramBotUpdatesListenerTest {
         when(message.chat()).thenReturn(chat);
         when(message.from()).thenReturn(user);
         when(chat.id()).thenReturn(CHAT_ID);
-        when(user.firstName()).thenReturn(FIRST_NAME);
+        when(user.firstName()).thenReturn(NAME);
+        when(user.username()).thenReturn(USERNAME);
+
+        when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.OPEN_CHAT);
+        out.process(List.of(update));
+        verify(volunteerChatService).sendMessageByUser(TEXT);
 
         when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_NAME_DOG);
         out.process(List.of(update));
@@ -83,6 +91,38 @@ class TelegramBotUpdatesListenerTest {
         out.process(List.of(update));
         verify(recordingCatService).recordingNumberPhoneCat(CHAT_ID, TEXT);
 
-        //verify(userChatService, times(4)).editUserChat(CHAT_ID, FIRST_NAME);
+        when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_DIET);
+        out.process(List.of(update));
+        verify(recordingReportService).recordingDiet(CHAT_ID, TEXT);
+
+        when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_WELL_BEING);
+        out.process(List.of(update));
+        verify(recordingReportService).recordingWellBeing(CHAT_ID, TEXT);
+
+        when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_BEHAVIORS);
+        out.process(List.of(update));
+        verify(recordingReportService).recordingBehaviors(CHAT_ID, TEXT);
+
+        verify(userChatService, times(8)).editUserChat(CHAT_ID, NAME, USERNAME);
+    }
+
+
+    @Test
+    void processWhenTextIsNullTest() {
+        when(update.message()).thenReturn(message);
+        PhotoSize[] photoSizes = new PhotoSize[]{};
+        when(update.message().photo()).thenReturn(photoSizes);
+        when(message.text()).thenReturn(null);
+        when(message.chat()).thenReturn(chat);
+        when(message.from()).thenReturn(user);
+        when(chat.id()).thenReturn(CHAT_ID);
+        when(user.firstName()).thenReturn(NAME);
+        when(user.username()).thenReturn(USERNAME);
+
+        when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_PICTURE);
+        out.process(List.of(update));
+        verify(recordingReportService).recordingPhoto(CHAT_ID, photoSizes);
+
+        verify(userChatService, times(1)).editUserChat(CHAT_ID, NAME, USERNAME);
     }
 }

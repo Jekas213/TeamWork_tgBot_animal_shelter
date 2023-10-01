@@ -1,7 +1,5 @@
 package com.example.tgbotanimalshelter.service;
 
-import com.example.tgbotanimalshelter.controller.CatControllerTest;
-import com.example.tgbotanimalshelter.controller.UserChatControllerTest;
 import com.example.tgbotanimalshelter.entity.CatParent;
 import com.example.tgbotanimalshelter.entity.Status;
 import com.example.tgbotanimalshelter.entity.UserChat;
@@ -10,7 +8,9 @@ import com.example.tgbotanimalshelter.repository.CatRepository;
 import com.example.tgbotanimalshelter.repository.UserChatRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,10 +20,13 @@ import java.util.Optional;
 import static com.example.tgbotanimalshelter.constant.RecordingConstants.*;
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.BASIC_STATUS;
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.WAIT_FOR_NAME_CAT;
+import static com.example.tgbotanimalshelter.factory.CatTestFactory.buildCat;
+import static com.example.tgbotanimalshelter.factory.UserChatTestFactory.buildUserChat;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class RecordingCatServiceTest {
+@ExtendWith(MockitoExtension.class)
+class RecordingCatServiceTest extends BaseServiceTest {
 
     @MockBean
     private SendMessageService sendMessageService;
@@ -49,7 +52,7 @@ class RecordingCatServiceTest {
 
     @Test
     void recordingNumberPhoneTest() {
-        UserChat userChat = userChatRepository.save(UserChatControllerTest.buildUserChat());
+        UserChat userChat = userChatRepository.save(buildUserChat());
 
         recordingCatService.recordingNumberPhoneCat(userChat.getId(), CORRECT_NUMBER);
 
@@ -101,12 +104,12 @@ class RecordingCatServiceTest {
 
     private CatParent buildCatParent() {
         return new CatParent(
-                userChatRepository.save(new UserChat(1L, "userChat", BASIC_STATUS)).getId(),
+                userChatRepository.save(new UserChat(1L, "name", "userChat", BASIC_STATUS)).getId(),
                 "fullName",
                 "9000000000",
                 "address",
                 Status.SEARCH,
-                catRepository.save(CatControllerTest.buildCat())
+                catRepository.save(buildCat())
         );
     }
 }
