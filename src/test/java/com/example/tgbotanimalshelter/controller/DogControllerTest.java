@@ -12,12 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
+import static com.example.tgbotanimalshelter.factory.DogTestFactory.buildDog;
+import static com.example.tgbotanimalshelter.factory.DogTestFactory.buildDogs;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -140,25 +138,8 @@ public class DogControllerTest extends BaseControllerTest {
     }
 
     @Test
-    void deleteTestWhenDogNotFound() throws Exception {
+    void deleteTestWhenDogNotFoundTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(ROOT + "/" + 1L))
                 .andExpect(status().isNotFound());
-    }
-
-    public static Dog buildDog() {
-        return new Dog(0L, "dog", LocalDate.now(), "desc", true);
-    }
-
-    private List<Dog> buildDogs(int count) {
-        return LongStream.range(1, count)
-                .mapToObj(i -> new Dog(0L,
-                        "dog" + i, LocalDate.now().minusDays(i),
-                        "desc" + i,
-                        ThreadLocalRandom.current().nextBoolean()))
-                .collect(Collectors.toList());
-    }
-
-    private List<Dog> buildDogs() {
-        return buildDogs(10);
     }
 }

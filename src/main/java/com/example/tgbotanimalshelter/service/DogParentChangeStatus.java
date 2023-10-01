@@ -31,7 +31,7 @@ public class DogParentChangeStatus {
 
     public void inviteRefusedStatus(long chatId){
         DogParent dogParent = dogParentService.findById(chatId);
-        dogParent.setStatus(Status.APPROVED);
+        dogParent.setStatus(Status.REFUSED);
         dogParentService.update(chatId,dogParent);
         sendMessageService.sendMassage(chatId, "заявка отклонена");
     }

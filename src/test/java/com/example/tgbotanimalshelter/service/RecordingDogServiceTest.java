@@ -1,7 +1,5 @@
 package com.example.tgbotanimalshelter.service;
 
-import com.example.tgbotanimalshelter.controller.DogControllerTest;
-import com.example.tgbotanimalshelter.controller.UserChatControllerTest;
 import com.example.tgbotanimalshelter.entity.DogParent;
 import com.example.tgbotanimalshelter.entity.Status;
 import com.example.tgbotanimalshelter.entity.StatusUserChat;
@@ -15,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
@@ -23,11 +20,12 @@ import java.util.Optional;
 import static com.example.tgbotanimalshelter.constant.RecordingConstants.*;
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.BASIC_STATUS;
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.WAIT_FOR_NAME_DOG;
+import static com.example.tgbotanimalshelter.factory.DogTestFactory.buildDog;
+import static com.example.tgbotanimalshelter.factory.UserChatTestFactory.buildUserChat;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
-class RecordingDogServiceTest {
+class RecordingDogServiceTest extends BaseServiceTest {
 
     @MockBean
     private SendMessageService sendMessageService;
@@ -53,7 +51,7 @@ class RecordingDogServiceTest {
 
     @Test
     void recordingNumberPhoneTest() {
-        UserChat userChat = userChatRepository.save(UserChatControllerTest.buildUserChat());
+        UserChat userChat = userChatRepository.save(buildUserChat());
 
         recordingDogService.recordingNumberPhone(userChat.getId(), CORRECT_NUMBER);
 
@@ -104,12 +102,12 @@ class RecordingDogServiceTest {
 
     private DogParent buildDogParent() {
         return new DogParent(
-                userChatRepository.save(new UserChat(1L, "userChat", StatusUserChat.BASIC_STATUS)).getId(),
+                userChatRepository.save(new UserChat(1L, "name", "userChat", StatusUserChat.BASIC_STATUS)).getId(),
                 "fullName",
                 "9000000000",
                 "address",
                 Status.SEARCH,
-                dogRepository.save(DogControllerTest.buildDog())
+                dogRepository.save(buildDog())
         );
     }
 }

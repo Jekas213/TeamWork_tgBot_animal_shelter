@@ -12,6 +12,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class CatParent {
     @Id
     @Column(name = "chat_id")

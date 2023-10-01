@@ -22,6 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
+import static com.example.tgbotanimalshelter.factory.CatTestFactory.buildCat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -151,31 +152,31 @@ class CatParentControllerTest extends BaseControllerTest{
     }
 
     @Test
-    void deleteTestWhenCatParentNotFound() throws Exception {
+    void deleteTestWhenCatParentNotFoundTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(ROOT + "/" + 1L))
                 .andExpect(status().isNotFound());
     }
 
     private CatParent buildCatParent() {
         return new CatParent(
-                userChatRepository.save(new UserChat(1L, "userChat", StatusUserChat.BASIC_STATUS)).getId(),
+                userChatRepository.save(new UserChat(1L, "name", "userChat", StatusUserChat.BASIC_STATUS)).getId(),
                 "fullName",
                 "9000000000",
                 "address",
                 Status.SEARCH,
-                catRepository.save(CatControllerTest.buildCat())
+                catRepository.save(buildCat())
         );
     }
 
     private List<CatParent> buildCatsParents(int count) {
         return LongStream.range(1, count)
                 .mapToObj(i -> new CatParent(
-                        userChatRepository.save(new UserChat(i, "userChat" + i, StatusUserChat.BASIC_STATUS)).getId(),
+                        userChatRepository.save(new UserChat(i, "name" + i, "userChat" + i, StatusUserChat.BASIC_STATUS)).getId(),
                         "fullName" + i,
                         "900000000" + i,
                         "address" + i,
                         Status.values()[ThreadLocalRandom.current().nextInt(Status.values().length)],
-                        catRepository.save(CatControllerTest.buildCat())))
+                        catRepository.save(buildCat())))
                 .collect(Collectors.toList());
     }
 
