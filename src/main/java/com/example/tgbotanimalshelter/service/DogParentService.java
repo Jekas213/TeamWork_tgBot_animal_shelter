@@ -1,12 +1,14 @@
 package com.example.tgbotanimalshelter.service;
 
 import com.example.tgbotanimalshelter.entity.DogParent;
+import com.example.tgbotanimalshelter.entity.Status;
 import com.example.tgbotanimalshelter.exception.DogParentNotFoundException;
 import com.example.tgbotanimalshelter.repository.DogParentRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DogParentService implements CrudService<Long, DogParent> {
@@ -52,6 +54,10 @@ public class DogParentService implements CrudService<Long, DogParent> {
             return;
         }
         throw new DogParentNotFoundException();
+    }
 
+    @Transactional
+    public Status getDogParentStatus(long chatId) {
+        return Optional.ofNullable(dogParentRepository.findStatusDogParentById(chatId)).orElseThrow(DogParentNotFoundException::new);
     }
 }

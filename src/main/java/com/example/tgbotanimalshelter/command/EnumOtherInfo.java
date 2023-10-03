@@ -6,6 +6,7 @@ public enum EnumOtherInfo {
 
     VOLUNTEER("связаться в волонтером"),
     UNKNOWN("такой команды нет, введите команду из предложенных Вам, либо начните заного введя команду " + START.getCommandName()),
+    NOT_ANIMALS("вы сможете отправлять отчёт, как только возьмете питомца из приюта"),
     START_FIRST("выберите интерисующий Вас приют \n" + DOGS.getCommandName()
             + " - приют для собак \n" + CATS.getCommandName() + " - приют для кошек");
 

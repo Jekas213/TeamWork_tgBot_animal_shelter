@@ -13,7 +13,10 @@ public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
     @Query(value = """
             SELECT chat_id
             FROM volunteer
-            LIMIT 1
+            LIMIT 1 OFFSET :rdm
             """, nativeQuery = true)
-    Optional<Long> findFirstChatId();
+    Optional<Long> findFirstChatId(int rdm);
+
+    @Query(value = "select count (*) from Volunteer")
+    int findCountVolunteer();
 }

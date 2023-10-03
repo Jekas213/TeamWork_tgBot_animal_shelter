@@ -24,6 +24,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final RecordingCatService recordingCatService;
     private final RecordingReportService recordingReportService;
     private final VolunteerChatService volunteerChatService;
+    private final VolunteerService volunteerService;
+    private final DogParentService dogParentService;
+    private final CatParentService catParentService;
     /**
      * The character that the command should start with
      */
@@ -33,12 +36,23 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                       UserChatService userChatService,
                                       RecordingDogService recordingDogService,
                                       RecordingCatService recordingCatService,
-                                      RecordingReportService recordingReportService, VolunteerChatService volunteerChatService) {
+                                      RecordingReportService recordingReportService,
+                                      VolunteerChatService volunteerChatService,
+                                      VolunteerService volunteerService,
+                                      DogParentService dogParentService,
+                                      CatParentService catParentService) {
         this.recordingDogService = recordingDogService;
         this.recordingCatService = recordingCatService;
         this.recordingReportService = recordingReportService;
         this.volunteerChatService = volunteerChatService;
-        this.commandContainer = new CommandContainer(new SendMessageService(telegramBot), userChatService);
+        this.volunteerService = volunteerService;
+        this.dogParentService = dogParentService;
+        this.catParentService = catParentService;
+        this.commandContainer = new CommandContainer(new SendMessageService(telegramBot),
+                userChatService,
+                volunteerService,
+                dogParentService,
+                catParentService);
         this.telegramBot = telegramBot;
         this.userChatService = userChatService;
     }
@@ -62,7 +76,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 if (message != null) {
                     switch (status) {
                         case BASIC_STATUS -> processText(chatId, message);
-                        case OPEN_CHAT -> volunteerChatService.sendMessageByUser(message);
+                        case OPEN_CHAT -> volunteerChatService.sendMessageByUser(chatId, message);
                         case WAIT_FOR_NAME_DOG -> recordingDogService.recordingName(chatId, message);
                         case WAIT_FOR_NUMBER_DOG -> recordingDogService.recordingNumberPhone(chatId, message);
                         case WAIT_FOR_NUMBER_CAT -> recordingCatService.recordingNumberPhoneCat(chatId, message);

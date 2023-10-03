@@ -31,7 +31,7 @@ public class UserChatService {
      */
     @Transactional
     public void editUserChat(long chatId, String name, String userName) {
-        UserChat userChat = new UserChat(chatId, name, userName, BASIC_STATUS);
+        UserChat userChat = new UserChat(chatId, name, userName, null, null, BASIC_STATUS);
         if (userChatRepository.findById(chatId).isEmpty()) {
             userChatRepository.save(userChat);
         }
@@ -108,6 +108,10 @@ public class UserChatService {
             return;
         }
         throw new UserNotFoundException();
+    }
+
+    public long getVolunteerIdByUserChatId(long chatId) {
+        return userChatRepository.findVolunteerIdByUserChatId(chatId);
     }
 
 }

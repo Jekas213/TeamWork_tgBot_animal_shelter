@@ -1,7 +1,6 @@
 package com.example.tgbotanimalshelter.command;
 
-import com.example.tgbotanimalshelter.service.SendMessageService;
-import com.example.tgbotanimalshelter.service.UserChatService;
+import com.example.tgbotanimalshelter.service.*;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -18,7 +17,8 @@ public class CommandContainer {
     private final Map<String, Command> commandMap;
     private final Command unknownCommand;
 
-    public CommandContainer(SendMessageService sendMessageService, UserChatService userChatService) {
+    public CommandContainer(SendMessageService sendMessageService, UserChatService userChatService, VolunteerService volunteerService, DogParentService dogParentService,
+                            CatParentService catParentService) {
         commandMap = new HashMap<>();
         commandMap.put(START.getCommandName(), new InfoCommand(sendMessageService, EnumOtherInfo.START_FIRST.getCommandName()));
         commandMap.put(DOGS.getCommandName(), new InfoCommand(sendMessageService, INFO_START_DOGS.getCommandName()));
@@ -27,9 +27,9 @@ public class CommandContainer {
         commandMap.put(INFO_CATS.getCommandName(), new InfoCommand(sendMessageService, INFO_CAT_SHELTERS.getCommandName()));
         commandMap.put(TAKE_DOG_COM.getCommandName(), new InfoCommand(sendMessageService, TAKE_DOGS.getCommandName()));
         commandMap.put(TAKE_CAT_COM.getCommandName(), new InfoCommand(sendMessageService, TAKE_CATS.getCommandName()));
-        commandMap.put(DOG_REPORT.getCommandName(), new RecordingReportCommand(sendMessageService, REPORT_DOG.getCommandName(), userChatService));
-        commandMap.put(CAT_REPORT.getCommandName(), new RecordingReportCommand(sendMessageService, REPORT_CAT.getCommandName(), userChatService));
-        commandMap.put(CALL_VOLUNTEER.getCommandName(), new VolunteerCommand(sendMessageService, EnumOtherInfo.VOLUNTEER.getCommandName(), userChatService));
+        commandMap.put(DOG_REPORT.getCommandName(), new RecordingReportCommand(sendMessageService, REPORT_DOG.getCommandName(), userChatService, dogParentService, catParentService));
+        commandMap.put(CAT_REPORT.getCommandName(), new RecordingReportCommand(sendMessageService, REPORT_CAT.getCommandName(), userChatService, dogParentService, catParentService));
+        commandMap.put(CALL_VOLUNTEER.getCommandName(), new VolunteerCommand(sendMessageService, EnumOtherInfo.VOLUNTEER.getCommandName(), userChatService, volunteerService));
         commandMap.put(DESCRIPTION_CAT.getCommandName(), new InfoCommand(sendMessageService, DESCRIPTION_CAT_SHELTERS.getCommandName()));
         commandMap.put(ADDRESS_CAT.getCommandName(), new InfoCommand(sendMessageService, ADDRESS_CAT_SHELTERS.getCommandName()));
         commandMap.put(CONTACT_CAT.getCommandName(), new InfoCommand(sendMessageService, CONTACT_CAT_SHELTERS.getCommandName()));
