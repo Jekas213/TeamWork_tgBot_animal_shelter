@@ -17,7 +17,10 @@ public class CommandContainer {
     private final Map<String, Command> commandMap;
     private final Command unknownCommand;
 
-    public CommandContainer(SendMessageService sendMessageService, UserChatService userChatService, VolunteerService volunteerService, DogParentService dogParentService,
+    public CommandContainer(SendMessageService sendMessageService,
+                            UserChatService userChatService,
+                            VolunteerService volunteerService,
+                            DogParentService dogParentService,
                             CatParentService catParentService) {
         commandMap = new HashMap<>();
         commandMap.put(START.getCommandName(), new InfoCommand(sendMessageService, EnumOtherInfo.START_FIRST.getCommandName()));

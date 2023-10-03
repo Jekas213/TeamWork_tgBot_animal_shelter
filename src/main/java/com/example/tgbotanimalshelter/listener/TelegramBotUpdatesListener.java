@@ -33,7 +33,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public static final String PREF = "/";
 
     public TelegramBotUpdatesListener(TelegramBot telegramBot,
-                                      UserChatService userChatService,
+                                      CommandContainer commandContainer, UserChatService userChatService,
                                       RecordingDogService recordingDogService,
                                       RecordingCatService recordingCatService,
                                       RecordingReportService recordingReportService,
@@ -41,6 +41,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                                       VolunteerService volunteerService,
                                       DogParentService dogParentService,
                                       CatParentService catParentService) {
+        this.commandContainer = commandContainer;
         this.recordingDogService = recordingDogService;
         this.recordingCatService = recordingCatService;
         this.recordingReportService = recordingReportService;
@@ -48,11 +49,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         this.volunteerService = volunteerService;
         this.dogParentService = dogParentService;
         this.catParentService = catParentService;
-        this.commandContainer = new CommandContainer(new SendMessageService(telegramBot),
-                userChatService,
-                volunteerService,
-                dogParentService,
-                catParentService);
         this.telegramBot = telegramBot;
         this.userChatService = userChatService;
     }
