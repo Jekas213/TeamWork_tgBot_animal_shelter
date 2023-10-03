@@ -1,6 +1,7 @@
 package com.example.tgbotanimalshelter.service;
 
 import com.example.tgbotanimalshelter.entity.CatParent;
+import com.example.tgbotanimalshelter.entity.Status;
 import com.example.tgbotanimalshelter.exception.CatParentNotFoundException;
 import com.example.tgbotanimalshelter.repository.CatParentRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,5 +51,9 @@ public class CatParentService implements CrudService<Long, CatParent> {
             return;
         }
         throw new CatParentNotFoundException();
+    }
+
+    public Status getCatParentStatus(long chatId) {
+        return Optional.ofNullable(catParentRepository.findStatusCatParentById(chatId)).orElseThrow(CatParentNotFoundException::new);
     }
 }

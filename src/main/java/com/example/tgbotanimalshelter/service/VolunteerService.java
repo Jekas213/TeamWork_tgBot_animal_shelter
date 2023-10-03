@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class VolunteerService implements CrudService<Long, Volunteer> {
@@ -51,5 +52,16 @@ public class VolunteerService implements CrudService<Long, Volunteer> {
             return;
         }
         throw new VolunteerNotFoundException();
+    }
+
+    public long getRandomVolunteerId() {
+        int random = getRandomNumber();
+        return volunteerRepository.findFirstChatId(random)
+                .orElseThrow(VolunteerNotFoundException::new);
+    }
+
+    private int getRandomNumber() {
+        int count = volunteerRepository.findCountVolunteer();
+        return ThreadLocalRandom.current().nextInt(1, count + 1);
     }
 }
