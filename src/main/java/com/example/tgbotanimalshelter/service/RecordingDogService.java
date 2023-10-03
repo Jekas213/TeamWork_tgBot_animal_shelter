@@ -16,12 +16,18 @@ public class RecordingDogService {
     private final DogParentService dogParentService;
     private final UserChatService userChatService;
     private final SendMessageService sendMessageService;
+    private final VolunteerService volunteerService;
 
-    public RecordingDogService(DogParentRepository dogParentRepository, DogParentService dogParentService, UserChatService userChatService, SendMessageService sendMessageService) {
+    public RecordingDogService(DogParentRepository dogParentRepository,
+                               DogParentService dogParentService,
+                               UserChatService userChatService,
+                               SendMessageService sendMessageService, VolunteerService volunteerService) {
         this.dogParentRepository = dogParentRepository;
         this.dogParentService = dogParentService;
         this.userChatService = userChatService;
         this.sendMessageService = sendMessageService;
+
+        this.volunteerService = volunteerService;
     }
 
 
@@ -43,7 +49,7 @@ public class RecordingDogService {
 
     public void recordingName(long chatId, String text) {
         if (text.matches("[а-яА-Я]+")) {
-            long chatIdVolunteer = 1860428928;
+            long chatIdVolunteer = volunteerService.getRandomVolunteerId();
             DogParent dogParent = dogParentService.findById(chatId);
             dogParent.setFullName(text);
             dogParentService.update(chatId, dogParent);

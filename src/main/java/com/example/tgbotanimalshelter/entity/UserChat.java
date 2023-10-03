@@ -21,6 +21,10 @@ public class UserChat {
     private String name;
     @Column(name = "username")
     private String username;
+    @Column(name = "volunteer_id")
+    private Long volunteerId;
+    @Column(name = "report_id")
+    private Long reportId;
     @Column(name = "status_user_chat")
     @Enumerated(EnumType.STRING)
     private StatusUserChat statusUserChat;
