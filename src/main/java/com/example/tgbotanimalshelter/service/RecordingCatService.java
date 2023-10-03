@@ -5,9 +5,9 @@ import com.example.tgbotanimalshelter.entity.UserChat;
 import com.example.tgbotanimalshelter.repository.CatParentRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.regex.Pattern;
 
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.*;
+import static com.example.tgbotanimalshelter.service.ServiceMessage.*;
 
 @Service
 public class RecordingCatService {
@@ -15,19 +15,17 @@ public class RecordingCatService {
     private final CatParentRepository catParentRepository;
     private final CatParentService catParentService;
     private final UserChatService userChatService;
-    private final SendMassageService sendMassageService;
-    private static final Pattern PATTERN_NUMBER_CAT = Pattern.compile("(\\+7|8)?(9)\\d{9}");
-    private static final Pattern PATTERN_NAME_CAT = Pattern.compile("[а-яА-Я]");
+    private final SendMessageService sendMessageService;
 
-    public RecordingCatService(CatParentRepository catParentRepository, CatParentService catParentService, UserChatService userChatService, SendMassageService sendMassageService) {
+    public RecordingCatService(CatParentRepository catParentRepository, CatParentService catParentService, UserChatService userChatService, SendMessageService sendMessageService) {
         this.catParentRepository = catParentRepository;
         this.catParentService = catParentService;
         this.userChatService = userChatService;
-        this.sendMassageService = sendMassageService;
+        this.sendMessageService = sendMessageService;
     }
 
     public void recordingNumberPhoneCat(long chatId, String text) {
-        if (PATTERN_NUMBER_CAT.matcher(text).find()) {
+        if (text.matches("(\\+7|8)?(9)\\d{9}")) {
             CatParent catParent = new CatParent();
             catParent.setChatId(chatId);
             catParent.setPhoneNumber(text);
@@ -35,24 +33,27 @@ public class RecordingCatService {
             UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(WAIT_FOR_NAME_CAT);
             userChatService.update(chatId, userChat);
-            sendMassageService.sendMassage(chatId, "введите имя");
+            sendMessageService.sendMassage(chatId, INPUT_NAME.getCommandName());
         } else {
-            sendMassageService.sendMassage(chatId, "неправильно набран номер");
+            sendMessageService.sendMassage(chatId, INCORRECT_NUMBER.getCommandName());
 
         }
     }
 
     public void recordingNameCat(long chatId, String text) {
-        if (PATTERN_NAME_CAT.matcher(text).find()) {
+        if (text.matches("[а-яА-Я]+")) {
+            long chatIdVolunteer = 1860428928;
             CatParent catParent = catParentService.findById(chatId);
             catParent.setFullName(text);
             catParentService.update(chatId, catParent);
             UserChat userChat = userChatService.findById(chatId);
             userChat.setStatusUserChat(BASIC_STATUS);
             userChatService.update(chatId, userChat);
-            sendMassageService.sendMassage(chatId, "/start - Вернуться в главное меню");
+            sendMessageService.sendMassage(chatId, RETURN_START.getCommandName());
+            sendMessageService.sendMassage(chatIdVolunteer, CONTACT_INFO.getCommandName() +
+                    "\n" + "Чат id: " + chatId);
         } else {
-            sendMassageService.sendMassage(chatId, "введите корректное имя");
+            sendMessageService.sendMassage(chatId, INCORRECT_NAME.getCommandName());
         }
 
     }

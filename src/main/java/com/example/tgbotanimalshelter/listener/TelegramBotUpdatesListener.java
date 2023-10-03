@@ -3,12 +3,10 @@ package com.example.tgbotanimalshelter.listener;
 import com.example.tgbotanimalshelter.command.CommandContainer;
 import com.example.tgbotanimalshelter.command.CommandName;
 import com.example.tgbotanimalshelter.entity.StatusUserChat;
-import com.example.tgbotanimalshelter.service.RecordingCatService;
-import com.example.tgbotanimalshelter.service.RecordingDogService;
-import com.example.tgbotanimalshelter.service.SendMassageService;
-import com.example.tgbotanimalshelter.service.UserChatService;
+import com.example.tgbotanimalshelter.service.*;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.model.Update;
 import org.springframework.stereotype.Service;
 
@@ -20,21 +18,27 @@ import static com.example.tgbotanimalshelter.entity.StatusUserChat.*;
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
     private final TelegramBot telegramBot;
-
     private final CommandContainer commandContainer;
-
     private final UserChatService userChatService;
     private final RecordingDogService recordingDogService;
     private final RecordingCatService recordingCatService;
+    private final RecordingReportService recordingReportService;
+    private final VolunteerChatService volunteerChatService;
     /**
      * The character that the command should start with
      */
     public static final String PREF = "/";
 
-    public TelegramBotUpdatesListener(TelegramBot telegramBot, UserChatService userChatService, RecordingDogService recordingDogService, RecordingCatService recordingCatService) {
+    public TelegramBotUpdatesListener(TelegramBot telegramBot,
+                                      UserChatService userChatService,
+                                      RecordingDogService recordingDogService,
+                                      RecordingCatService recordingCatService,
+                                      RecordingReportService recordingReportService, VolunteerChatService volunteerChatService) {
         this.recordingDogService = recordingDogService;
         this.recordingCatService = recordingCatService;
-        this.commandContainer = new CommandContainer(new SendMassageService(telegramBot), userChatService);
+        this.recordingReportService = recordingReportService;
+        this.volunteerChatService = volunteerChatService;
+        this.commandContainer = new CommandContainer(new SendMessageService(telegramBot), userChatService);
         this.telegramBot = telegramBot;
         this.userChatService = userChatService;
     }
@@ -47,22 +51,31 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     @Override
     public int process(List<Update> updates) {
         updates.forEach(update -> {
-            String massage = update.message().text();
-            long chatId = update.message().chat().id();
-            String name = update.message().from().firstName();
-            userChatService.editUserChat(chatId, name);
-            StatusUserChat status = userChatService.getUserChatStatus(chatId);
-            if (update.message() != null && massage != null) {
-                if (BASIC_STATUS.equals(status)) {
-                    processText(chatId, massage);
-                } else if (WAIT_FOR_NAME_DOG.equals(status)) {
-                    recordingDogService.recordingNameDog(chatId, massage);
-                } else if (WAIT_FOR_NUMBER_DOG.equals(status)) {
-                    recordingDogService.recordingNumberPhoneDog(chatId, massage);
-                } else if (WAIT_FOR_NUMBER_CAT.equals(status)) {
-                    recordingCatService.recordingNumberPhoneCat(chatId, massage);
-                } else if (WAIT_FOR_NAME_CAT.equals(status)) {
-                    recordingCatService.recordingNameCat(chatId, massage);
+            if (update.message() != null) {
+                PhotoSize[] photoSizes = update.message().photo();
+                String message = update.message().text();
+                long chatId = update.message().chat().id();
+                String name = update.message().from().firstName();
+                String userName = update.message().from().username();
+                userChatService.editUserChat(chatId, name, userName);
+                StatusUserChat status = userChatService.getUserChatStatus(chatId);
+                if (message != null) {
+                    switch (status) {
+                        case BASIC_STATUS -> processText(chatId, message);
+                        case OPEN_CHAT -> volunteerChatService.sendMessageByUser(message);
+                        case WAIT_FOR_NAME_DOG -> recordingDogService.recordingName(chatId, message);
+                        case WAIT_FOR_NUMBER_DOG -> recordingDogService.recordingNumberPhone(chatId, message);
+                        case WAIT_FOR_NUMBER_CAT -> recordingCatService.recordingNumberPhoneCat(chatId, message);
+                        case WAIT_FOR_NAME_CAT -> recordingCatService.recordingNameCat(chatId, message);
+                        case WAIT_FOR_DIET -> recordingReportService.recordingDiet(chatId, message);
+                        case WAIT_FOR_WELL_BEING -> recordingReportService.recordingWellBeing(chatId, message);
+                        case WAIT_FOR_BEHAVIORS -> recordingReportService.recordingBehaviors(chatId, message);
+                    }
+
+                } else if (update.message().photo() != null) {
+                    if (WAIT_FOR_PICTURE.equals(status)) {
+                        recordingReportService.recordingPhoto(chatId, photoSizes);
+                    }
                 }
             }
 
@@ -74,7 +87,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         if (massage.startsWith(PREF)) {
             commandContainer.command(massage).execute(chatId);
         } else {
-            new SendMassageService(telegramBot).sendMassage(chatId,
+            new SendMessageService(telegramBot).sendMassage(chatId,
                     "бот поддерживает команды начинающиеся с / \n"
                             + "чтобы начать общение с ботов введите " + CommandName.START.getCommandName()
                             + " или выбериет уже предложенные ранее Вам команды");

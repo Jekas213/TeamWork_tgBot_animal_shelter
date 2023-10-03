@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class SendMassageService {
+public class SendMessageService {
     private final TelegramBot telegramBot;
 
-    public SendMassageService(TelegramBot telegramBot) {
+    public SendMessageService(TelegramBot telegramBot) {
         this.telegramBot = telegramBot;
     }
 

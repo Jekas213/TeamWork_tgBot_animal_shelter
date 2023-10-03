@@ -22,6 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
+import static com.example.tgbotanimalshelter.factory.DogTestFactory.buildDog;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -158,24 +159,24 @@ public class DogParentControllerTest extends BaseControllerTest {
 
     private DogParent buildDogParent() {
         return new DogParent(
-                userChatRepository.save(new UserChat(1L, "userChat", StatusUserChat.BASIC_STATUS)).getId(),
+                userChatRepository.save(new UserChat(1L, "userChat", "name", StatusUserChat.BASIC_STATUS)).getId(),
                 "fullName",
                 "9000000000",
                 "address",
                 Status.SEARCH,
-                dogRepository.save(DogControllerTest.buildDog())
+                dogRepository.save(buildDog())
         );
     }
 
     private List<DogParent> buildDogsParents(int count) {
         return LongStream.range(1, count)
                 .mapToObj(i -> new DogParent(
-                        userChatRepository.save(new UserChat(i, "userChat" + i, StatusUserChat.BASIC_STATUS)).getId(),
+                        userChatRepository.save(new UserChat(i, "name" + i, "userChat" + i, StatusUserChat.BASIC_STATUS)).getId(),
                         "fullName" + i,
                         "900000000" + i,
                         "address" + i,
                         Status.values()[ThreadLocalRandom.current().nextInt(Status.values().length)],
-                        dogRepository.save(DogControllerTest.buildDog())))
+                        dogRepository.save(buildDog())))
                 .collect(Collectors.toList());
     }
 

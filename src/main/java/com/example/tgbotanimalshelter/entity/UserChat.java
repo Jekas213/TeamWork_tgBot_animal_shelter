@@ -17,6 +17,8 @@ public class UserChat {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
+    private String name;
     @Column(name = "username")
     private String username;
     @Column(name = "status_user_chat")

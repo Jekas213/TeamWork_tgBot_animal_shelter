@@ -11,7 +11,7 @@ import static com.example.tgbotanimalshelter.command.CommandName.*;
  */
 public enum EnumDogsInfo {
 
-    REPORT_DOG("Отчёт о питомце"),
+    REPORT_DOG("Опишите рацион питомца"),
     INFO_DOG_SHELTERS(String.format("""
                     Выберите нужный пункт:\s
                     %s Описание приюта для собак\s

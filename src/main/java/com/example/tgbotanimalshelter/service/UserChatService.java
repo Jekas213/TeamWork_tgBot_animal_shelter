@@ -14,7 +14,7 @@ import java.util.Optional;
 import static com.example.tgbotanimalshelter.entity.StatusUserChat.*;
 
 @Service
-public class UserChatService implements CrudService<Long, UserChat>{
+public class UserChatService {
 
     private final UserChatRepository userChatRepository;
 
@@ -30,8 +30,8 @@ public class UserChatService implements CrudService<Long, UserChat>{
      * @param userName
      */
     @Transactional
-    public void editUserChat(long chatId, String userName) {
-        UserChat userChat = new UserChat(chatId, userName, BASIC_STATUS);
+    public void editUserChat(long chatId, String name, String userName) {
+        UserChat userChat = new UserChat(chatId, name, userName, BASIC_STATUS);
         if (userChatRepository.findById(chatId).isEmpty()) {
             userChatRepository.save(userChat);
         }
@@ -41,16 +41,11 @@ public class UserChatService implements CrudService<Long, UserChat>{
         return userChatRepository.findAll();
     }
 
-    @Override
+
     public UserChat findById(Long id) {
         return userChatRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
-    @Transactional
-    @Override
-    public UserChat create(UserChat userChat) {
-        return userChatRepository.save(userChat);
-    }
 
     public StatusUserChat getUserChatStatus(long id) {
         return Optional.ofNullable(userChatRepository.findStatusUserChatById(id)).orElseThrow(UserNotFoundException::new);
@@ -63,10 +58,35 @@ public class UserChatService implements CrudService<Long, UserChat>{
         userChatRepository.save(userChat);
 
     }
+
     @Transactional
     public void inviteWaitPhoneStatusCat(long chatId) {
         UserChat userChat = findById(chatId);
         userChat.setStatusUserChat(WAIT_FOR_NUMBER_CAT);
+        userChatRepository.save(userChat);
+
+    }
+
+    @Transactional
+    public void inviteWaitReportStatus(long chatId) {
+        UserChat userChat = findById(chatId);
+        userChat.setStatusUserChat(WAIT_FOR_DIET);
+        userChatRepository.save(userChat);
+
+    }
+
+    @Transactional
+    public void inviteOpenChatStatus(long chatId) {
+        UserChat userChat = findById(chatId);
+        userChat.setStatusUserChat(OPEN_CHAT);
+        userChatRepository.save(userChat);
+
+    }
+
+    @Transactional
+    public void inviteBasicStatus(long chatId) {
+        UserChat userChat = findById(chatId);
+        userChat.setStatusUserChat(BASIC_STATUS);
         userChatRepository.save(userChat);
 
     }
@@ -82,7 +102,6 @@ public class UserChatService implements CrudService<Long, UserChat>{
     }
 
     @Transactional
-    @Override
     public void delete(Long id) {
         if (userChatRepository.existsById(id)) {
             userChatRepository.deleteById(id);

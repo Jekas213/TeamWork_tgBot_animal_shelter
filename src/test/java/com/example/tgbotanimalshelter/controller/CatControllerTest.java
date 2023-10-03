@@ -12,12 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
+import static com.example.tgbotanimalshelter.factory.CatTestFactory.buildCat;
+import static com.example.tgbotanimalshelter.factory.CatTestFactory.buildCats;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -143,22 +141,5 @@ public class CatControllerTest extends BaseControllerTest {
     void deleteTestWhenCatNotFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(ROOT + "/" + 1L))
                 .andExpect(status().isNotFound());
-    }
-
-    public static Cat buildCat() {
-        return new Cat(0L, "cat", LocalDate.now(), "desc", true);
-    }
-
-    private List<Cat> buildCats(int count) {
-        return LongStream.range(1, count)
-                .mapToObj(i -> new Cat(0L,
-                        "cat" + i, LocalDate.now().minusDays(i),
-                        "desc" + i,
-                        ThreadLocalRandom.current().nextBoolean()))
-                .collect(Collectors.toList());
-    }
-
-    private List<Cat> buildCats() {
-        return buildCats(10);
     }
 }
