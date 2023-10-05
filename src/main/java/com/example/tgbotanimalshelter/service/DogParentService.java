@@ -58,6 +58,6 @@ public class DogParentService implements CrudService<Long, DogParent> {
 
     @Transactional
     public Status getDogParentStatus(long chatId) {
-        return Optional.ofNullable(dogParentRepository.findStatusDogParentById(chatId)).orElseThrow(DogParentNotFoundException::new);
+        return Optional.ofNullable(dogParentRepository.findStatusDogParentById(chatId)).orElse(null);
     }
 }

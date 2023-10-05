@@ -1,14 +1,12 @@
 package com.example.tgbotanimalshelter.command;
 
 import com.example.tgbotanimalshelter.entity.Status;
-import com.example.tgbotanimalshelter.exception.CatParentNotFoundException;
-import com.example.tgbotanimalshelter.exception.DogParentNotFoundException;
 import com.example.tgbotanimalshelter.service.CatParentService;
 import com.example.tgbotanimalshelter.service.DogParentService;
 import com.example.tgbotanimalshelter.service.SendMessageService;
 import com.example.tgbotanimalshelter.service.UserChatService;
 
-import static com.example.tgbotanimalshelter.command.EnumOtherInfo.*;
+import static com.example.tgbotanimalshelter.command.EnumOtherInfo.NOT_ANIMALS;
 
 public class RecordingReportCommand implements Command {
     private final SendMessageService sendMessageService;
@@ -39,10 +37,9 @@ public class RecordingReportCommand implements Command {
     }
 
     private boolean validateCommand(long chatId) {
-        try {
-            return catParentService.getCatParentStatus(chatId).equals(Status.TRIAL_PERIOD) || dogParentService.getDogParentStatus(chatId).equals(Status.TRIAL_PERIOD);
-        } catch (CatParentNotFoundException | DogParentNotFoundException e) {
-            return false;
-        }
+        Status catParentStatus = catParentService.getCatParentStatus(chatId);
+        Status dogParentStatus = dogParentService.getDogParentStatus(chatId);
+        return (catParentStatus != null && catParentStatus.equals(Status.TRIAL_PERIOD)) ||
+               (dogParentStatus != null && dogParentStatus.equals(Status.TRIAL_PERIOD));
     }
 }

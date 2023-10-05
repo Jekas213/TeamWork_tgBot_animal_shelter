@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DogParentRepository extends JpaRepository<DogParent, Long> {
-    @Query("select status from DogParent where chatId = :id")
+    @Query("select p.status from DogParent p where p.chatId = :id")
     Status findStatusDogParentById(@Param("id") long id);
 }
