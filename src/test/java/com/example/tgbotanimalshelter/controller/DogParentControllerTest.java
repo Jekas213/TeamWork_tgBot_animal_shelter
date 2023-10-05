@@ -159,7 +159,7 @@ public class DogParentControllerTest extends BaseControllerTest {
 
     private DogParent buildDogParent() {
         return new DogParent(
-                userChatRepository.save(new UserChat(1L, "userChat", "name", StatusUserChat.BASIC_STATUS)).getId(),
+                userChatRepository.save(new UserChat(1L, "userChat", "name", 1L, 1L, StatusUserChat.BASIC_STATUS)).getId(),
                 "fullName",
                 "9000000000",
                 "address",
@@ -171,7 +171,7 @@ public class DogParentControllerTest extends BaseControllerTest {
     private List<DogParent> buildDogsParents(int count) {
         return LongStream.range(1, count)
                 .mapToObj(i -> new DogParent(
-                        userChatRepository.save(new UserChat(i, "name" + i, "userChat" + i, StatusUserChat.BASIC_STATUS)).getId(),
+                        userChatRepository.save(new UserChat(i, "name" + i, "userChat" + i, i, i, StatusUserChat.BASIC_STATUS)).getId(),
                         "fullName" + i,
                         "900000000" + i,
                         "address" + i,

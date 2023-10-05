@@ -112,7 +112,7 @@ class CatParentServiceTest extends BaseServiceTest {
 
     private CatParent buildCatParent() {
         return new CatParent(
-                userChatRepository.save(new UserChat(1L, "name", "userChat", StatusUserChat.BASIC_STATUS)).getId(),
+                userChatRepository.save(new UserChat(1L, "name", "userChat", 1L, 1L, StatusUserChat.BASIC_STATUS)).getId(),
                 "fullName",
                 "9000000000",
                 "address",
@@ -124,7 +124,7 @@ class CatParentServiceTest extends BaseServiceTest {
     private List<CatParent> buildCatsParents(int count) {
         return LongStream.range(1, count)
                 .mapToObj(i -> new CatParent(
-                        userChatRepository.save(new UserChat(i, "name" + i, "userChat" + i, StatusUserChat.BASIC_STATUS)).getId(),
+                        userChatRepository.save(new UserChat(i, "name" + i, "userChat" + i, i, i, StatusUserChat.BASIC_STATUS)).getId(),
                         "fullName" + i,
                         "900000000" + i,
                         "address" + i,
