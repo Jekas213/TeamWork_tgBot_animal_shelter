@@ -30,15 +30,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public static final String PREF = "/";
 
     public TelegramBotUpdatesListener(TelegramBot telegramBot,
-                                      UserChatService userChatService,
+                                      CommandContainer commandContainer, UserChatService userChatService,
                                       RecordingDogService recordingDogService,
                                       RecordingCatService recordingCatService,
-                                      RecordingReportService recordingReportService, VolunteerChatService volunteerChatService) {
+                                      RecordingReportService recordingReportService,
+                                      VolunteerChatService volunteerChatService) {
+        this.commandContainer = commandContainer;
         this.recordingDogService = recordingDogService;
         this.recordingCatService = recordingCatService;
         this.recordingReportService = recordingReportService;
         this.volunteerChatService = volunteerChatService;
-        this.commandContainer = new CommandContainer(new SendMessageService(telegramBot), userChatService);
         this.telegramBot = telegramBot;
         this.userChatService = userChatService;
     }
@@ -62,7 +63,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 if (message != null) {
                     switch (status) {
                         case BASIC_STATUS -> processText(chatId, message);
-                        case OPEN_CHAT -> volunteerChatService.sendMessageByUser(message);
+                        case OPEN_CHAT -> volunteerChatService.sendMessageByUser(chatId, message);
                         case WAIT_FOR_NAME_DOG -> recordingDogService.recordingName(chatId, message);
                         case WAIT_FOR_NUMBER_DOG -> recordingDogService.recordingNumberPhone(chatId, message);
                         case WAIT_FOR_NUMBER_CAT -> recordingCatService.recordingNumberPhoneCat(chatId, message);

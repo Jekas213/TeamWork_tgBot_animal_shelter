@@ -73,7 +73,7 @@ class TelegramBotUpdatesListenerTest {
 
         when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.OPEN_CHAT);
         out.process(List.of(update));
-        verify(volunteerChatService).sendMessageByUser(TEXT);
+        verify(volunteerChatService).sendMessageByUser(CHAT_ID, TEXT);
 
         when(userChatService.getUserChatStatus(CHAT_ID)).thenReturn(StatusUserChat.WAIT_FOR_NAME_DOG);
         out.process(List.of(update));

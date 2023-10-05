@@ -16,12 +16,14 @@ public class RecordingCatService {
     private final CatParentService catParentService;
     private final UserChatService userChatService;
     private final SendMessageService sendMessageService;
+    private final VolunteerService volunteerService;
 
-    public RecordingCatService(CatParentRepository catParentRepository, CatParentService catParentService, UserChatService userChatService, SendMessageService sendMessageService) {
+    public RecordingCatService(CatParentRepository catParentRepository, CatParentService catParentService, UserChatService userChatService, SendMessageService sendMessageService, VolunteerService volunteerService) {
         this.catParentRepository = catParentRepository;
         this.catParentService = catParentService;
         this.userChatService = userChatService;
         this.sendMessageService = sendMessageService;
+        this.volunteerService = volunteerService;
     }
 
     public void recordingNumberPhoneCat(long chatId, String text) {
@@ -42,7 +44,7 @@ public class RecordingCatService {
 
     public void recordingNameCat(long chatId, String text) {
         if (text.matches("[а-яА-Я]+")) {
-            long chatIdVolunteer = 1860428928;
+            long chatIdVolunteer = volunteerService.getRandomVolunteerId();
             CatParent catParent = catParentService.findById(chatId);
             catParent.setFullName(text);
             catParentService.update(chatId, catParent);

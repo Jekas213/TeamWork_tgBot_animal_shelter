@@ -11,4 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface UserChatRepository extends JpaRepository<UserChat, Long> {
     @Query("select statusUserChat from UserChat where id = :id")
     StatusUserChat findStatusUserChatById(@Param("id") long id);
+
+    @Query("select volunteerId from UserChat where id = :id")
+    int findVolunteerIdByUserChatId(@Param("id") long id);
 }

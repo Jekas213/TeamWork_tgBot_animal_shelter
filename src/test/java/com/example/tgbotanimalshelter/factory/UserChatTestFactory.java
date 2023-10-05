@@ -9,12 +9,12 @@ import java.util.stream.LongStream;
 
 public class UserChatTestFactory {
     public static UserChat buildUserChat() {
-        return new UserChat(1L, "name", "username", StatusUserChat.BASIC_STATUS);
+        return new UserChat(1L, "name", "username", 1L, 1L, StatusUserChat.BASIC_STATUS);
     }
 
     public static List<UserChat> buildUserChats(int count) {
         return LongStream.range(1, count)
-                .mapToObj(i -> new UserChat(i, "name" + i, "username" + i, StatusUserChat.BASIC_STATUS))
+                .mapToObj(i -> new UserChat(i, "name" + i, "username" + i, i, i, StatusUserChat.BASIC_STATUS))
                 .collect(Collectors.toList());
     }
 
