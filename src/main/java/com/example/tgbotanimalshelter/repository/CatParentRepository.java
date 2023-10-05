@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CatParentRepository extends JpaRepository<CatParent, Long> {
-    @Query("select status from CatParent where chatId = :id")
+    @Query("select p.status from CatParent p where p.chatId = :id")
     Status findStatusCatParentById(@Param("id") long id);
 }

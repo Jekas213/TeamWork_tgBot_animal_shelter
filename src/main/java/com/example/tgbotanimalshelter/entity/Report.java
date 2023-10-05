@@ -12,6 +12,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

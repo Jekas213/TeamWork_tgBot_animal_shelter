@@ -54,6 +54,6 @@ public class CatParentService implements CrudService<Long, CatParent> {
     }
 
     public Status getCatParentStatus(long chatId) {
-        return Optional.ofNullable(catParentRepository.findStatusCatParentById(chatId)).orElseThrow(CatParentNotFoundException::new);
+        return Optional.ofNullable(catParentRepository.findStatusCatParentById(chatId)).orElse(null);
     }
 }
