@@ -3,9 +3,11 @@ package com.example.tgbotanimalshelter.service;
 import com.example.tgbotanimalshelter.entity.CatParent;
 import com.example.tgbotanimalshelter.entity.Status;
 import com.example.tgbotanimalshelter.entity.UserChat;
+import com.example.tgbotanimalshelter.factory.VolunteerTestFactory;
 import com.example.tgbotanimalshelter.repository.CatParentRepository;
 import com.example.tgbotanimalshelter.repository.CatRepository;
 import com.example.tgbotanimalshelter.repository.UserChatRepository;
+import com.example.tgbotanimalshelter.repository.VolunteerRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,6 +45,9 @@ class RecordingCatServiceTest extends BaseServiceTest {
     @Autowired
     private UserChatRepository userChatRepository;
 
+    @Autowired
+    private VolunteerRepository volunteerRepository;
+
     @AfterEach
     void tearDown() {
         catParentRepository.deleteAll();
@@ -79,6 +84,7 @@ class RecordingCatServiceTest extends BaseServiceTest {
     @Test
     void recordingNameCatTest() {
         CatParent catParent = catParentRepository.save(buildCatParent());
+        volunteerRepository.save(VolunteerTestFactory.buildVolunteer());
 
         recordingCatService.recordingNameCat(catParent.getChatId(), CORRECT_NAME);
 
@@ -104,7 +110,7 @@ class RecordingCatServiceTest extends BaseServiceTest {
 
     private CatParent buildCatParent() {
         return new CatParent(
-                userChatRepository.save(new UserChat(1L, "name", "userChat", BASIC_STATUS)).getId(),
+                userChatRepository.save(new UserChat(1L, "name", "userChat", 1L, 1L, BASIC_STATUS)).getId(),
                 "fullName",
                 "9000000000",
                 "address",

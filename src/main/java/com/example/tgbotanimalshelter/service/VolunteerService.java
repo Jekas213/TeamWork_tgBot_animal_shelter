@@ -62,6 +62,6 @@ public class VolunteerService implements CrudService<Long, Volunteer> {
 
     private int getRandomNumber() {
         int count = volunteerRepository.findCountVolunteer();
-        return ThreadLocalRandom.current().nextInt(1, count + 1);
+        return ThreadLocalRandom.current().nextInt(0, count);
     }
 }

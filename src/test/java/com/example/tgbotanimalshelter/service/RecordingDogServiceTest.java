@@ -1,12 +1,11 @@
 package com.example.tgbotanimalshelter.service;
 
-import com.example.tgbotanimalshelter.entity.DogParent;
-import com.example.tgbotanimalshelter.entity.Status;
-import com.example.tgbotanimalshelter.entity.StatusUserChat;
-import com.example.tgbotanimalshelter.entity.UserChat;
+import com.example.tgbotanimalshelter.entity.*;
+import com.example.tgbotanimalshelter.factory.VolunteerTestFactory;
 import com.example.tgbotanimalshelter.repository.DogParentRepository;
 import com.example.tgbotanimalshelter.repository.DogRepository;
 import com.example.tgbotanimalshelter.repository.UserChatRepository;
+import com.example.tgbotanimalshelter.repository.VolunteerRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +40,9 @@ class RecordingDogServiceTest extends BaseServiceTest {
 
     @Autowired
     private UserChatRepository userChatRepository;
+
+    @Autowired
+    private VolunteerRepository volunteerRepository;
 
     @AfterEach
     void tearDown() {
@@ -78,6 +80,7 @@ class RecordingDogServiceTest extends BaseServiceTest {
     @Test
     void recordingNameDogTest() {
         DogParent dogParent = dogParentRepository.save(buildDogParent());
+        volunteerRepository.save(VolunteerTestFactory.buildVolunteer());
 
         recordingDogService.recordingName(dogParent.getChatId(), CORRECT_NAME);
 
@@ -102,7 +105,7 @@ class RecordingDogServiceTest extends BaseServiceTest {
 
     private DogParent buildDogParent() {
         return new DogParent(
-                userChatRepository.save(new UserChat(1L, "name", "userChat", StatusUserChat.BASIC_STATUS)).getId(),
+                userChatRepository.save(new UserChat(1L, "name", "userChat", 1L, 1L, StatusUserChat.BASIC_STATUS)).getId(),
                 "fullName",
                 "9000000000",
                 "address",
